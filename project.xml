@@ -102,7 +102,9 @@
       <version>1.1</version>
       <type>jar</type>
       <url>http://java.sun.com/products/JavaManagement/</url>
-      <properties/>
+    <properties>
+	 <idegaweb.bundle.include>true</idegaweb.bundle.include>
+	 </properties>
     </dependency>
     <dependency>
       <groupId>jpoller</groupId>
@@ -110,7 +112,9 @@
       <version>1.2.2c</version>
       <type>jar</type>
       <url>http://jpoller.sourceforge.net/</url>
-      <properties/>
+    <properties>
+	 <idegaweb.bundle.include>true</idegaweb.bundle.include>
+	 </properties>
     </dependency>
     <dependency>
       <groupId>jpoller</groupId>
@@ -118,7 +122,9 @@
       <version>1.2.2c</version>
       <type>jar</type>
       <url>http://jpoller.sourceforge.net/</url>
-      <properties/>
+    <properties>
+	 <idegaweb.bundle.include>true</idegaweb.bundle.include>
+	 </properties>
     </dependency>
     <dependency>
       <groupId>jpoller</groupId>
@@ -126,7 +132,9 @@
       <version>1.2.2c</version>
       <type>jar</type>
       <url>http://jpoller.sourceforge.net/</url>
-      <properties/>
+     <properties>
+	 <idegaweb.bundle.include>true</idegaweb.bundle.include>
+	 </properties>
     </dependency>   
     <dependency>
       <groupId>jpoller</groupId>
@@ -134,7 +142,9 @@
       <version>1.2.2c</version>
       <type>jar</type>
       <url>http://xoomer.virgilio.it/csadun/software/lf/installation.html</url>
-      <properties/>
+     <properties>
+	 <idegaweb.bundle.include>true</idegaweb.bundle.include>
+	 </properties>
     </dependency>
     <dependency>
       <groupId>zeigermann</groupId>
@@ -142,7 +152,9 @@
       <version>1.0</version>
       <type>jar</type>
       <url>http://www.zeigermann.de</url>
-      <properties/>
+	  <properties>
+	 <idegaweb.bundle.include>true</idegaweb.bundle.include>
+	 </properties>
     </dependency>
     
     <!-- End JPoller dependencies -->
