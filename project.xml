@@ -126,7 +126,7 @@
     </dependency>
     <dependency>
       <groupId>zeigermann</groupId>
-      <artifactId>xml-utils</artifactId>
+      <artifactId>zeigermann-xml-utils</artifactId>
       <version>1.0</version>
       <type>jar</type>
       <url>http://www.zeigermann.de</url>
