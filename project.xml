@@ -48,6 +48,13 @@
       <organization>idega software</organization>
       <roles/>
     </developer>
+    <developer>
+      <name>Joakim Johnson</name>
+      <id>joakim</id>
+      <email>joakim@idega.is</email>
+      <organization>idega software</organization>
+      <roles/>
+    </developer>
   </developers>
   <dependencies>
     <dependency>
@@ -74,6 +81,60 @@
         <eclipse.dependency>true</eclipse.dependency>
       </properties>
     </dependency>
+    
+    <!-- JPoller dependencies -->
+ 
+    <dependency>
+      <groupId>jmx</groupId>
+      <artifactId>jmxri</artifactId>
+      <version>1.1</version>
+      <type>jar</type>
+      <url>http://java.sun.com/products/JavaManagement/</url>
+      <properties/>
+    </dependency>
+    <dependency>
+      <groupId>jpoller</groupId>
+      <artifactId>jpoller-pollmgt</artifactId>
+      <version>1.2.2c</version>
+      <type>jar</type>
+      <url>http://jpoller.sourceforge.net/</url>
+      <properties/>
+    </dependency>
+    <dependency>
+      <groupId>jpoller</groupId>
+      <artifactId>jpoller-org.sadun.util</artifactId>
+      <version>1.2.2c</version>
+      <type>jar</type>
+      <url>http://jpoller.sourceforge.net/</url>
+      <properties/>
+    </dependency>
+    <dependency>
+      <groupId>jpoller</groupId>
+      <artifactId>jpoller-clopt</artifactId>
+      <version>1.2.2c</version>
+      <type>jar</type>
+      <url>http://jpoller.sourceforge.net/</url>
+      <properties/>
+    </dependency>   
+    <dependency>
+      <groupId>jpoller</groupId>
+      <artifactId>jpoller-lf</artifactId>
+      <version>1.2.2c</version>
+      <type>jar</type>
+      <url>http://xoomer.virgilio.it/csadun/software/lf/installation.html</url>
+      <properties/>
+    </dependency>
+    <dependency>
+      <groupId>zeigermann</groupId>
+      <artifactId>xml-utils</artifactId>
+      <version>1.0</version>
+      <type>jar</type>
+      <url>http://www.zeigermann.de</url>
+      <properties/>
+    </dependency>
+    
+    <!-- End JPoller dependencies -->
+    
   </dependencies>
   <build>
     <sourceDirectory>src/java</sourceDirectory>
