@@ -5,8 +5,13 @@
   <pomVersion>3</pomVersion>
   <name>idegaWeb Importer Block</name>
   <artifactId>com.idega.block.importer</artifactId>
-  <currentVersion>1.0</currentVersion>  
+  <currentVersion>IMPORTER_1_0</currentVersion>
   <versions>
+    <version>
+      <id>IMPORTER_1_0</id>
+      <name>IMPORTER_1_0</name>
+      <tag>IMPORTER_1_0</tag>
+    </version>
   </versions>
   <branches/>
   <developers>
@@ -45,6 +50,7 @@
       <artifactId>com.idega.core</artifactId>
       <version>1.9</version>
       <!--<version>SNAPSHOT</version>-->
+
       <type>jar</type>
       <url>http://www.idega.com/</url>
       <properties>
@@ -56,6 +62,7 @@
       <artifactId>com.idega.block.media</artifactId>
       <version>1.0</version>
       <!--<version>SNAPSHOT</version>-->
+
       <type>jar</type>
       <url>http://www.idega.com/</url>
       <properties>
