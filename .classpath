@@ -9,6 +9,18 @@
   </classpathentry>
   <classpathentry kind="src" path="/com.idega.block.media">
   </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/jmx/jars/jmxri-1.1.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/jpoller/jars/jpoller-pollmgt-1.2.2c.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/jpoller/jars/jpoller-org.sadun.util-1.2.2c.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/jpoller/jars/jpoller-clopt-1.2.2c.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/jpoller/jars/jpoller-lf-1.2.2c.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/zeigermann/jars/zeigermann-xml-utils-1.0.jar">
+  </classpathentry>
   <classpathentry kind="var" path="MAVEN_REPO/servletapi/jars/servletapi-2.4.jar">
   </classpathentry>
   <classpathentry kind="var" path="MAVEN_REPO/jdom/jars/jdom-b9-rc2.jar">
