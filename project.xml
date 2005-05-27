@@ -4,9 +4,10 @@
   <extend>${base.project.dir}/block-dependencies.xml</extend>
   <pomVersion>3</pomVersion>
   <name>idegaWeb Importer Block</name>
-  <artifactId>com.idega.block.importer</artifactId>  
-  <currentVersion>1.1.1</currentVersion>
-  <!--currentVersion>1.2-SNAPSHOT</currentVersion-->
+  <artifactId>com.idega.block.importer</artifactId>
+  <!--currentVersion>1.1.1</currentVersion-->
+  <currentVersion>1.2-SNAPSHOT</currentVersion>
+
   <versions>
     <version>
       <id>IMPORTER_1_0</id>
@@ -17,6 +18,11 @@
       <id>1.1</id>
       <name>1.1</name>
       <tag>IMPORTER_1_1</tag>
+    </version>
+    <version>
+      <id>1.1.1</id>
+      <name>1.1.1</name>
+      <tag>IMPORTER_1_1_1</tag>
     </version>
   </versions>
   <branches/>
@@ -61,8 +67,8 @@
     <dependency>
       <groupId>bundles</groupId>
       <artifactId>com.idega.core</artifactId>
-      <!--HELPER--><version>3.0.5</version><!--HELPER-->
-      <!--HELPERversion>SNAPSHOT</versionHELPER-->
+      <!--version>3.0.5</version-->
+      <version>SNAPSHOT</version>
 
       <type>jar</type>
       <url>http://www.idega.com/</url>
@@ -73,8 +79,8 @@
     <dependency>
       <groupId>bundles</groupId>
       <artifactId>com.idega.block.media</artifactId>
-      <!--HELPER--><version>1.1.2</version><!--HELPER-->
-      <!--HELPERversion>SNAPSHOT</versionHELPER-->
+      <!--version>1.1.2</version-->
+      <version>SNAPSHOT</version>
 
       <type>jar</type>
       <url>http://www.idega.com/</url>
@@ -85,8 +91,8 @@
     <dependency>
       <groupId>bundles</groupId>
       <artifactId>com.idega.user</artifactId>
-      <!--HELPER--><version>1.1.2</version><!--HELPER-->
-      <!--HELPERversion>SNAPSHOT</versionHELPER-->
+      <!--version>1.1.2</version-->
+      <version>SNAPSHOT</version>
 
       <type>jar</type>
       <url>http://www.idega.com/</url>
@@ -94,18 +100,17 @@
         <eclipse.dependency>true</eclipse.dependency>
       </properties>
     </dependency>
-    
     <!-- JPoller dependencies -->
- 
+
     <dependency>
       <groupId>jmx</groupId>
       <artifactId>jmxri</artifactId>
       <version>1.1</version>
       <type>jar</type>
       <url>http://java.sun.com/products/JavaManagement/</url>
-    <properties>
-	 <idegaweb.bundle.include>true</idegaweb.bundle.include>
-	 </properties>
+      <properties>
+        <idegaweb.bundle.include>true</idegaweb.bundle.include>
+      </properties>
     </dependency>
     <dependency>
       <groupId>jpoller</groupId>
@@ -113,9 +118,9 @@
       <version>1.2.2c</version>
       <type>jar</type>
       <url>http://jpoller.sourceforge.net/</url>
-    <properties>
-	 <idegaweb.bundle.include>true</idegaweb.bundle.include>
-	 </properties>
+      <properties>
+        <idegaweb.bundle.include>true</idegaweb.bundle.include>
+      </properties>
     </dependency>
     <dependency>
       <groupId>jpoller</groupId>
@@ -123,9 +128,9 @@
       <version>1.2.2c</version>
       <type>jar</type>
       <url>http://jpoller.sourceforge.net/</url>
-    <properties>
-	 <idegaweb.bundle.include>true</idegaweb.bundle.include>
-	 </properties>
+      <properties>
+        <idegaweb.bundle.include>true</idegaweb.bundle.include>
+      </properties>
     </dependency>
     <dependency>
       <groupId>jpoller</groupId>
@@ -133,19 +138,19 @@
       <version>1.2.2c</version>
       <type>jar</type>
       <url>http://jpoller.sourceforge.net/</url>
-     <properties>
-	 <idegaweb.bundle.include>true</idegaweb.bundle.include>
-	 </properties>
-    </dependency>   
+      <properties>
+        <idegaweb.bundle.include>true</idegaweb.bundle.include>
+      </properties>
+    </dependency>
     <dependency>
       <groupId>jpoller</groupId>
       <artifactId>jpoller-lf</artifactId>
       <version>1.2.2c</version>
       <type>jar</type>
       <url>http://xoomer.virgilio.it/csadun/software/lf/installation.html</url>
-     <properties>
-	 <idegaweb.bundle.include>true</idegaweb.bundle.include>
-	 </properties>
+      <properties>
+        <idegaweb.bundle.include>true</idegaweb.bundle.include>
+      </properties>
     </dependency>
     <dependency>
       <groupId>zeigermann</groupId>
@@ -153,11 +158,12 @@
       <version>1.0</version>
       <type>jar</type>
       <url>http://www.zeigermann.de</url>
-	  <properties>
-	 <idegaweb.bundle.include>true</idegaweb.bundle.include>
-	 </properties>
+      <properties>
+        <idegaweb.bundle.include>true</idegaweb.bundle.include>
+      </properties>
     </dependency>
     <!-- End JPoller dependencies -->
+
     <dependency>
       <groupId>poi</groupId>
       <artifactId>poi</artifactId>
@@ -165,7 +171,6 @@
       <type>jar</type>
       <url>http://jakarta.apache.org/poi/</url>
     </dependency>
-    
   </dependencies>
   <build>
     <sourceDirectory>src/java</sourceDirectory>
