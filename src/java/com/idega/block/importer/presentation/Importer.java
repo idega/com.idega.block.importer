@@ -293,7 +293,7 @@ public class Importer extends StyledIWAdminWindow {
 					//@todo move to a business method
 					Integer id = new Integer(values[i]);
 					ImportFileRecord record =
-						(ImportFileRecord) ((ImportFileRecordHome) com.idega.data.IDOLookup.getHome(ImportFileRecord.class)).findByPrimaryKey(id);
+						((ImportFileRecordHome) com.idega.data.IDOLookup.getHome(ImportFileRecord.class)).findByPrimaryKey(id);
 					record.setModificationDate(IWTimestamp.getTimestampRightNow());
 					record.setAsImported();
 					record.store();
@@ -519,8 +519,7 @@ public class Importer extends StyledIWAdminWindow {
 		return (ImportBusiness) IBOLookup.getServiceInstance(iwc, ImportBusiness.class);
 	}
 	private ImportFileRecord changeICFileToImportFileRecord(ICFile folder) throws Exception {
-		return (ImportFileRecord) ((ImportFileRecordHome) com.idega.data.IDOLookup.getHome(ImportFileRecord.class)).findByPrimaryKey(
-			folder.getPrimaryKey());
+		return ((ImportFileRecordHome) com.idega.data.IDOLookup.getHome(ImportFileRecord.class)).findByPrimaryKey(folder.getPrimaryKey());
 	}
 	private Table getFrameTable() {
 		if (frameTable == null) {
