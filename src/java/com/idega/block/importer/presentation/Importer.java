@@ -315,7 +315,7 @@ public class Importer extends StyledIWAdminWindow {
 					//@todo move to a business method
 					Integer id = new Integer(values[i]);
 					ImportFileRecord record =
-						((ImportFileRecordHome) com.idega.data.IDOLookup.getHome(ImportFileRecord.class)).findByPrimaryKey(id);
+						(ImportFileRecord) ((ImportFileRecordHome) com.idega.data.IDOLookup.getHome(ImportFileRecord.class)).findByPrimaryKey(id);
 					record.setModificationDate(IWTimestamp.getTimestampRightNow());
 					record.setAsImported();
 					record.store();
@@ -345,7 +345,7 @@ public class Importer extends StyledIWAdminWindow {
 		}
 		else {
 			headerTable.add(new Text(iwrb.getLocalizedString("importer.failure", "Failed")+": "+iwrb.getLocalizedString("importer.no.file.selected", "No file selected!")), 1, row++);
-			buttonTable.add(new StyledButton(new BackButton(iwrb.getLocalizedString("importer.back", "back"))), 2, 1);
+			buttonTable.add(new StyledButton(new BackButton(iwrb.getLocalizedString("importer.back", "back"))), 1, 1);
 		}
 		Help help = getHelp(HELP_TEXT_KEY);
 		bottomTable.add(help, 1, 1);
@@ -552,7 +552,8 @@ public class Importer extends StyledIWAdminWindow {
 		return (ImportBusiness) IBOLookup.getServiceInstance(iwc, ImportBusiness.class);
 	}
 	private ImportFileRecord changeICFileToImportFileRecord(ICFile folder) throws Exception {
-		return ((ImportFileRecordHome) com.idega.data.IDOLookup.getHome(ImportFileRecord.class)).findByPrimaryKey(folder.getPrimaryKey());
+		return (ImportFileRecord) ((ImportFileRecordHome) com.idega.data.IDOLookup.getHome(ImportFileRecord.class)).findByPrimaryKey(
+			folder.getPrimaryKey());
 	}
 	private Table getFrameTable() {
 		if (frameTable == null) {
