@@ -279,9 +279,9 @@ public class Importer extends StyledIWAdminWindow {
 		else{
 			values = iwc.getParameterValues(IMPORT_FILE_IDS);
 		}
-		String groupIDFromSession = (String) iwc.getSessionAttribute(this.PARAMETER_GROUP_ID);
-		String handler = iwc.getParameter(this.PARAMETER_IMPORT_HANDLER);
-		String fileClass = iwc.getParameter(this.PARAMETER_IMPORT_FILE);
+		String groupIDFromSession = (String) iwc.getSessionAttribute(Importer.PARAMETER_GROUP_ID);
+		String handler = iwc.getParameter(Importer.PARAMETER_IMPORT_HANDLER);
+		String fileClass = iwc.getParameter(Importer.PARAMETER_IMPORT_FILE);
 		if (values != null) {
 			// for each file to import
 			for (int i = 0; i < values.length; i++) {
@@ -421,7 +421,7 @@ public class Importer extends StyledIWAdminWindow {
 				Text fileType = new Text(iwrb.getLocalizedString("importer.import.filetype", "File type : "));
 				fileType.setBold();
 				fileTable.add(fileType, 3, fileCount + 3);
-				fileTable.add(getImportBusiness(iwc).getImportFileClasses(iwc,this.PARAMETER_IMPORT_FILE), 4, fileCount + 3);
+				fileTable.add(getImportBusiness(iwc).getImportFileClasses(iwc,Importer.PARAMETER_IMPORT_FILE), 4, fileCount + 3);
 				Link upload = new Link(iwrb.getLocalizedString("importer.upload", "Upload"));
 				upload.setWindowToOpen(MediaChooserWindow.class);
 				upload.setAsImageButton(true);
@@ -499,7 +499,7 @@ public class Importer extends StyledIWAdminWindow {
 			for (int i = 0; i < files.length; i++) {
 				if (!files[i].isDirectory()) {
 					fileTable.add(files[i].getName(), 1, i + 2);
-					fileTable.add(new CheckBox(this.IMPORT_FILE_PATHS, files[i].getAbsolutePath()), 2, i + 2);
+					fileTable.add(new CheckBox(Importer.IMPORT_FILE_PATHS, files[i].getAbsolutePath()), 2, i + 2);
 					addReportInfo(iwc, files[i].getName(), fileTable, 3, i + 2);
 				}
 				else {
@@ -510,7 +510,7 @@ public class Importer extends StyledIWAdminWindow {
 			fileTable.add(iwrb.getLocalizedString("importer.select.import.handler", "Select import handler"), 1, files.length + 2);
 			fileTable.add(getImportBusiness(iwc).getImportHandlers(iwc,PARAMETER_IMPORT_HANDLER), 2, files.length + 2);
 			fileTable.add(iwrb.getLocalizedString("importer.select.import.file.type", "Select file type"), 1, files.length + 3);
-			fileTable.add(getImportBusiness(iwc).getImportFileClasses(iwc,this.PARAMETER_IMPORT_FILE), 2, files.length + 3);
+			fileTable.add(getImportBusiness(iwc).getImportFileClasses(iwc,Importer.PARAMETER_IMPORT_FILE), 2, files.length + 3);
 			fileTable.add(new SubmitButton(), 2, files.length + 4);
 			add(form);
 		}
