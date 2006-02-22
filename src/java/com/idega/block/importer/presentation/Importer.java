@@ -4,7 +4,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.ejb.CreateException;
+
 import com.idega.block.importer.business.ImportBusiness;
 import com.idega.block.importer.data.ImportFileRecord;
 import com.idega.block.importer.data.ImportFileRecordHome;
@@ -30,9 +32,7 @@ import com.idega.presentation.ui.Form;
 import com.idega.presentation.ui.HiddenInput;
 import com.idega.presentation.ui.StyledButton;
 import com.idega.presentation.ui.SubmitButton;
-import com.idega.user.data.Group;
 import com.idega.user.presentation.GroupPropertyWindow;
-import com.idega.util.IWColor;
 import com.idega.util.IWTimestamp;
 /**
  * <p>Title: Importer</p>
@@ -46,22 +46,16 @@ public class Importer extends StyledIWAdminWindow {
 	
 	private String folderPath;
 	private ICFile importFolder;
-	private boolean usingLocalFileSystem, selectFiles, importFiles, selectFileSystemFolder , isInApplication= false;
+	private boolean usingLocalFileSystem, selectFiles, importFiles, isInApplication= false;
 	private IWResourceBundle iwrb;
-	private Group group = null;
 	private String groupId = null;
 	private Table frameTable = null;
-	private IWColor headerColor = IWColor.getIWColorFromHex("#A0A0A0");
 	
 	private static final String ACTION_PARAMETER = "im_ac"; //action
 	private static final String SELECT_FILES = "im_sf"; //select files action
 	private static final String IMPORT_FILES = "im_if"; //import files action
 	private static final String IMPORT_FILE_PATHS = "im_fp"; //list of local files
 	private static final String IMPORT_FILE_IDS = "im_f_ids"; //list of files in database
-	private static final String SELECT_NEW_FOLDER = "im_snf"; //new folder overrides builder parameter action
-	private static final String NEW_FOLDER_PATH = "im_nfp"; //new folder path
-
-	
 	public static final String PARAMETER_GROUP_ID = "ic_group_id";
 	public static final String PARAMETER_IMPORT_HANDLER = "im_imh";
 	public static final String PARAMETER_IMPORT_FILE = "im_imf";
@@ -560,9 +554,6 @@ public class Importer extends StyledIWAdminWindow {
 			frameTable.setWidth(Table.HUNDRED_PERCENT);
 		}
 		return (Table) frameTable.clone();
-	}
-	public void setHeaderColor(IWColor color) {
-		headerColor = color;
 	}
 	/**
 	 * @see com.idega.presentation.PresentationObject#getBundleIdentifier()

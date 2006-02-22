@@ -39,7 +39,6 @@ public class AutoImporter extends com.idega.presentation.Block {
 
 	private static String PARAM_UPDATE="im_up";
 	private static String PARAM_DELETE="im_de";
-	private IWContext _iwc;
 	private IWResourceBundle iwrb;
 	private String errorMessage = "";
 
@@ -54,7 +53,6 @@ public class AutoImporter extends com.idega.presentation.Block {
 	}
 	
 	public void main(IWContext iwc) throws Exception{
-		_iwc = iwc;
 		iwrb = this.getResourceBundle(iwc);
 		errorMessage = "";
 		
