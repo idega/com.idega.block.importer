@@ -53,8 +53,8 @@ public class AutoImporter extends com.idega.presentation.Block {
 	}
 	
 	public void main(IWContext iwc) throws Exception{
-		iwrb = this.getResourceBundle(iwc);
-		errorMessage = "";
+		this.iwrb = this.getResourceBundle(iwc);
+		this.errorMessage = "";
 		
 		handleAction(iwc);
 		
@@ -63,17 +63,17 @@ public class AutoImporter extends com.idega.presentation.Block {
 
 		//Create the config area, to set the handler, file type and folder
 		try {
-			Text importHandlerText = new Text(iwrb.getLocalizedString("importer.import.handler", "Import handler : "));
+			Text importHandlerText = new Text(this.iwrb.getLocalizedString("importer.import.handler", "Import handler : "));
 			importHandlerText.setBold();
 			table.add(importHandlerText, 1, 1);
 			table.add(getImportBusiness(iwc).getImportHandlers(iwc, PARAMETER_IMPORT_HANDLER), 2, 1);
 
-			Text fileType = new Text(iwrb.getLocalizedString("importer.import.filetype", "File type : "));
+			Text fileType = new Text(this.iwrb.getLocalizedString("importer.import.filetype", "File type : "));
 			fileType.setBold();
 			table.add(fileType, 1, 2);
 			table.add(getImportBusiness(iwc).getImportFileClasses(iwc, PARAMETER_IMPORT_FILE), 2, 2);
 
-			Text importFolder = new Text(iwrb.getLocalizedString("importer.import.folder", "Import folder : "));
+			Text importFolder = new Text(this.iwrb.getLocalizedString("importer.import.folder", "Import folder : "));
 			importFolder.setBold();
 			table.add(importFolder, 1, 3);
 			
@@ -82,7 +82,7 @@ public class AutoImporter extends com.idega.presentation.Block {
 			table.add(importFolderInput,2,3);
 
 			
-			SubmitButton update = new SubmitButton(PARAM_UPDATE,iwrb.getLocalizedString("importer.update", "Update"));
+			SubmitButton update = new SubmitButton(PARAM_UPDATE,this.iwrb.getLocalizedString("importer.update", "Update"));
 			update.setAsImageButton(true);
 			table.add(update, 3, 3);
 		} catch (RemoteException e) {
@@ -90,7 +90,7 @@ public class AutoImporter extends com.idega.presentation.Block {
 			e.printStackTrace();
 		}
 		form.add(table);
-		form.add(new Text(errorMessage));
+		form.add(new Text(this.errorMessage));
 		form.add(new Paragraph());
 		form.add(getAllAutomaticUpdates(iwc));
 		add(form);
@@ -116,15 +116,15 @@ public class AutoImporter extends com.idega.presentation.Block {
 				table = new Table(4,coll.size()+1);
 				
 				//Create the headers
-				Text importHandlerText = new Text(iwrb.getLocalizedString("importer.import.handler", "Import handler : "));
+				Text importHandlerText = new Text(this.iwrb.getLocalizedString("importer.import.handler", "Import handler : "));
 				importHandlerText.setBold();
 				table.add(importHandlerText, 1, 1);
 
-				Text fileType = new Text(iwrb.getLocalizedString("importer.import.filetype", "File type : "));
+				Text fileType = new Text(this.iwrb.getLocalizedString("importer.import.filetype", "File type : "));
 				fileType.setBold();
 				table.add(fileType, 2, 1);
 
-				Text importFolder = new Text(iwrb.getLocalizedString("importer.import.folder", "Import folder : "));
+				Text importFolder = new Text(this.iwrb.getLocalizedString("importer.import.folder", "Import folder : "));
 				importFolder.setBold();
 				table.add(importFolder, 3, 1);
 
@@ -138,7 +138,7 @@ public class AutoImporter extends com.idega.presentation.Block {
 					table.add(importFileClass.getName(),2,row);
 					table.add(importHandler.getAutoImpFolder(),3,row);
 					SubmitButton delButton = new SubmitButton(
-							iwrb.getLocalizedString("importer.delete", "Delete"),PARAM_DELETE,importHandler.getClassName());
+							this.iwrb.getLocalizedString("importer.delete", "Delete"),PARAM_DELETE,importHandler.getClassName());
 					delButton.setAsImageButton(true);
 					table.add(delButton,4,row);
 					row++;
@@ -207,7 +207,7 @@ public class AutoImporter extends com.idega.presentation.Block {
 			String importHandlerString = iwc.getParameter(PARAMETER_IMPORT_HANDLER);
 			String importFolderString = iwc.getParameter(PARAMETER_IMPORT_FOLDER);
 			if(!new File(importFolderString).exists()){
-				errorMessage = iwrb.getLocalizedString("importer.FolderNotFoundPleaseSpecifyValidFolder", "Folder not found. Please specify valid folder");
+				this.errorMessage = this.iwrb.getLocalizedString("importer.FolderNotFoundPleaseSpecifyValidFolder", "Folder not found. Please specify valid folder");
 				return;
 			}
 			//Could move to business maybe
