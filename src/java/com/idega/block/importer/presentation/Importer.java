@@ -268,7 +268,7 @@ public class Importer extends StyledIWAdminWindow {
 			values = iwc.getParameterValues(IMPORT_FILE_PATHS); //for local file importing
 		}
 		else if(this.isInApplication){
-			if(iwc.isUploadedFileSet()) {
+			if(iwc.getUploadedFile() != null) {
 				UploadFile file = iwc.getUploadedFile();
 				String[] temp = {file.getAbsolutePath()};
 				values = temp;
