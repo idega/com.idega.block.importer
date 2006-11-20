@@ -5,6 +5,12 @@
   </properties>
   <body>
   
+	<release version="3.1.1" date="2006-11-20">
+      <action dev="sigtryggur" type="fix">
+        Changed importer so files can now be uploaded in platform3 and imported
+      </action>              
+	</release>
+	
 	<release version="3.1.0" date="2006-06-26">
       <action dev="tryggvil" type="update">
         Built version to be used with ePlatform release 3.1
