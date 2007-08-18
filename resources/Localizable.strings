@@ -5,6 +5,7 @@ caa_unknown_citizen=
 close=Close
 confirm=
 importer=
+importer.FolderNotFoundPleaseSpecifyValidFolder=Folder not found. Please specify valid folder
 importer.back=
 importer.close=
 importer.creationdate=
