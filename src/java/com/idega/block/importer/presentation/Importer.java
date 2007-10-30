@@ -298,7 +298,7 @@ public class Importer extends StyledIWAdminWindow {
 					success = getImportBusiness(iwc).importRecords(handler, fileClass, path, new Integer(groupIDFromSession), iwc, failedRecords);
 				}
 				else {
-					success = getImportBusiness(iwc).importRecords(handler, fileClass, path, iwc);
+					success = getImportBusiness(iwc).importRecords(handler, fileClass, path, iwc, failedRecords);
 				}
 				String status = null;
 				if (!success) {

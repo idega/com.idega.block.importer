@@ -51,7 +51,7 @@ public interface ImportBusiness extends IBOService {
 	/**
 	 * @see com.idega.block.importer.business.ImportBusinessBean#importRecords
 	 */
-	public boolean importRecords(String handlerClass, String fileClass, String filePath, IWUserContext iwuc)
+	public boolean importRecords(String handlerClass, String fileClass, String filePath, IWUserContext iwuc, List failedRecords)
 			throws RemoteException;
 
 	/**
