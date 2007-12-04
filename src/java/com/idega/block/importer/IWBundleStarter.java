@@ -10,12 +10,17 @@ import com.idega.block.importer.business.AddressCoordinateImportHandler;
 import com.idega.block.importer.business.AutoImportPollManager;
 import com.idega.block.importer.data.ImportHandler;
 import com.idega.block.importer.data.ImportHandlerHome;
+import com.idega.block.importer.presentation.Importer;
+import com.idega.block.importer.presentation.ManagerImporter;
 import com.idega.business.IBOLookupException;
+import com.idega.core.view.ViewNode;
 import com.idega.data.IDOLookup;
 import com.idega.data.IDOLookupException;
 import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.IWBundleStartable;
+import com.idega.manager.view.ManagerViewManager;
 import com.idega.repository.data.RefactorClassRegistry;
+import com.idega.workspace.view.WorkspaceClassViewNode;
 
 
 /**
@@ -57,6 +62,18 @@ public class IWBundleStarter implements IWBundleStartable {
 			System.out.println("WARNING: Could not start the pollers for automatic imports");
 			e.printStackTrace();
 		}
+		registerViewNodes(starterBundle);
+	}
+
+	private void registerViewNodes(IWBundle starterBundle) {
+		
+		ManagerViewManager managerView = ManagerViewManager.getInstance(starterBundle.getApplication());
+		ViewNode managerNode = managerView.getContentNode();
+		WorkspaceClassViewNode importerNode = new WorkspaceClassViewNode("dataimport",managerNode);
+		importerNode.setName("Data Import");
+		importerNode.setComponentClass(ManagerImporter.class);
+		importerNode.setMaximizeBlockVertically(true);
+		
 	}
 
 	/**

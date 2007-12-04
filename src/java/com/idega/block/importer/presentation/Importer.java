@@ -21,6 +21,8 @@ import com.idega.idegaweb.help.presentation.Help;
 import com.idega.idegaweb.presentation.StyledIWAdminWindow;
 import com.idega.io.UploadFile;
 import com.idega.presentation.IWContext;
+import com.idega.presentation.Layer;
+import com.idega.presentation.PresentationObjectContainer;
 import com.idega.presentation.Table;
 import com.idega.presentation.text.Link;
 import com.idega.presentation.text.Text;
@@ -50,6 +52,8 @@ public class Importer extends StyledIWAdminWindow {
 	private IWResourceBundle iwrb;
 	private String groupId = null;
 	private Table frameTable = null;
+	private boolean addForm=true;
+	private boolean inWorkspace=false;
 	
 	private static final String ACTION_PARAMETER = "im_ac"; //action
 	private static final String SELECT_FILES = "im_sf"; //select files action
@@ -99,8 +103,10 @@ public class Importer extends StyledIWAdminWindow {
 	
 	private void parseAction(IWContext iwc) {
 		
-		if( (getICObjectInstanceID() < 1) && iwc.isParameterSet(PARAMETER_IMPORT_HANDLER) && iwc.isParameterSet(PARAMETER_IMPORT_FILE) ){
-			this.isInApplication = true;
+		if(!isInWorkspace()){
+			if( (getICObjectInstanceID() < 1) && iwc.isParameterSet(PARAMETER_IMPORT_HANDLER) && iwc.isParameterSet(PARAMETER_IMPORT_FILE) ){
+				this.isInApplication = true;
+			}
 		}
 		
 		if (iwc.isParameterSet(ACTION_PARAMETER)) {
@@ -181,8 +187,14 @@ public class Importer extends StyledIWAdminWindow {
 	}
 	
 	private void showFileUploader(IWContext iwc) {
-		Form form = new Form();
-		form.setMultiPart();
+		PresentationObjectContainer form;
+		if(isAddForm()){
+			form = new Form();
+			((Form)form).setMultiPart();
+		}
+		else{
+			form = new Layer();
+		}
 		//SimpleFileChooser chooser = new SimpleFileChooser(form, IMPORT_FILE_IDS);
 
 		Table mainTable = new Table();
@@ -201,6 +213,7 @@ public class Importer extends StyledIWAdminWindow {
 		FileInput chooser = new FileInput();
 		Help help = getHelp(HELP_TEXT_KEY);
 		SubmitButton confirm = new SubmitButton(this.iwrb.getLocalizedString("confirm","Confirm"));
+		confirm.setToEncloseByForm(false);
 		StyledButton styledConfirm = new StyledButton(confirm);
 		CloseButton close = new CloseButton(this.iwrb.getLocalizedString("close", "Close"));
 		StyledButton styledClose = new StyledButton(close);
@@ -238,7 +251,13 @@ public class Importer extends StyledIWAdminWindow {
 	 * @param iwc
 	 */
 	private void importFiles(IWContext iwc) throws Exception {
-		Form form = new Form();
+		PresentationObjectContainer form;
+		if(isAddForm()){
+			form = new Form();
+		}
+		else{
+			form = new Layer();
+		}
 		Table mainTable = new Table();
 		mainTable.setCellspacing(0);
 		mainTable.setCellpadding(0);
@@ -373,7 +392,13 @@ public class Importer extends StyledIWAdminWindow {
 				} else {
 					files = folder.getChildrenIterator(sortBy);
 				}
-				Form form = new Form();
+				PresentationObjectContainer form;
+				if(isAddForm()){
+					form = new Form();
+				}
+				else{
+					form = new Layer();
+				}
 				//name,size,creationdate(uploaddate),modificationdata(importdate),
 				//imported(status),reportlink,checkbox
 				fileTable.resize(7, fileCount + 3);
@@ -431,6 +456,7 @@ public class Importer extends StyledIWAdminWindow {
 				upload.addParameter(MediaBusiness.getMediaParameterNameInSession(iwc), ((Integer) folder.getPrimaryKey()).intValue());
 				SubmitButton importIt = new SubmitButton(this.iwrb.getLocalizedString("importer.import", "Import"));
 				importIt.setAsImageButton(true);
+				importIt.setToEncloseByForm(false);
 				fileTable.add(upload, 6, fileCount + 3);
 				fileTable.add(importIt, 7, fileCount + 3);
 				//data	            
@@ -492,7 +518,13 @@ public class Importer extends StyledIWAdminWindow {
 		if (folder.isDirectory()) {
 			File[] files = folder.listFiles();
 			fileTable.resize(3, files.length + 4);
-			Form form = new Form();
+			PresentationObjectContainer form;
+			if(isAddForm()){
+				form = new Form();
+			}
+			else{
+				form = new Layer();
+			}
 			form.add(fileTable);
 			Text headline = new Text(this.iwrb.getLocalizedString("importer.select_files", "Select files to import."));
 			headline.setBold();
@@ -513,7 +545,10 @@ public class Importer extends StyledIWAdminWindow {
 			fileTable.add(getImportBusiness(iwc).getImportHandlers(iwc,PARAMETER_IMPORT_HANDLER), 2, files.length + 2);
 			fileTable.add(this.iwrb.getLocalizedString("importer.select.import.file.type", "Select file type"), 1, files.length + 3);
 			fileTable.add(getImportBusiness(iwc).getImportFileClasses(iwc,Importer.PARAMETER_IMPORT_FILE), 2, files.length + 3);
-			fileTable.add(new SubmitButton(), 2, files.length + 4);
+			
+			SubmitButton submitButton = new SubmitButton();
+			submitButton.setToEncloseByForm(false);
+			fileTable.add(submitButton, 2, files.length + 4);
 			add(form);
 		}
 		else {
@@ -568,5 +603,18 @@ public class Importer extends StyledIWAdminWindow {
 	 */
 	public String getBundleIdentifier() {
 		return IW_BUNDLE_IDENTIFIER;
+	}
+	public boolean isAddForm() {
+		return addForm;
+	}
+	public void setAddForm(boolean addForm) {
+		this.addForm = addForm;
+	}
+	public boolean isInWorkspace() {
+		return inWorkspace;
+	}
+	public void setInWorkspace(boolean inWorkspace) {
+		this.inWorkspace = inWorkspace;
+		setAddForm(false);
 	}
 }
