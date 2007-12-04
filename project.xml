@@ -5,7 +5,7 @@
   <pomVersion>3</pomVersion>
   <name>idegaWeb Importer Block</name>
   <artifactId>com.idega.block.importer</artifactId>
-  <currentVersion>3.1.4</currentVersion>
+  <currentVersion>3.1.5</currentVersion>
   <versions>
     <version>
       <id>IMPORTER_1_0</id>
@@ -46,6 +46,11 @@
       <id>3.1.4</id>
       <name>3.1.4</name>
       <tag>IMPORTER_3_1_4</tag>
+    </version>
+    <version>
+      <id>3.1.5</id>
+      <name>3.1.5</name>
+      <tag>IMPORTER_3_1_5</tag>
     </version>
   </versions>
   <branches/>
