@@ -11,6 +11,10 @@
   </classpathentry>
   <classpathentry kind="var" path="MAVEN_REPO/bundles/jars/com.idega.user-3.1.5.jar">
   </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/bundles/jars/com.idega.workspace-3.1.4.jar">
+  </classpathentry>
+  <classpathentry kind="var" path="MAVEN_REPO/bundles/jars/com.idega.manager-3.1.1.jar">
+  </classpathentry>
   <classpathentry kind="var" path="MAVEN_REPO/jmx/jars/jmxri-1.1.jar">
   </classpathentry>
   <classpathentry kind="var" path="MAVEN_REPO/jpoller/jars/jpoller-pollmgt-1.2.2c.jar">
