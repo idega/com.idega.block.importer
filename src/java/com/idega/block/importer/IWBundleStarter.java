@@ -68,7 +68,7 @@ public class IWBundleStarter implements IWBundleStartable {
 	private void registerViewNodes(IWBundle starterBundle) {
 		
 		ManagerViewManager managerView = ManagerViewManager.getInstance(starterBundle.getApplication());
-		ViewNode managerNode = managerView.getContentNode();
+		ViewNode managerNode = managerView.getManagerNode();
 		WorkspaceClassViewNode importerNode = new WorkspaceClassViewNode("dataimport",managerNode);
 		importerNode.setName("Data Import");
 		importerNode.setComponentClass(ManagerImporter.class);
