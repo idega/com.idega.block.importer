@@ -4,13 +4,15 @@ import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+
 import javax.ejb.FinderException;
+
 import org.sadun.util.polling.DirectoryPoller;
+
 import com.idega.block.importer.business.AddressCoordinateImportHandler;
 import com.idega.block.importer.business.AutoImportPollManager;
 import com.idega.block.importer.data.ImportHandler;
 import com.idega.block.importer.data.ImportHandlerHome;
-import com.idega.block.importer.presentation.Importer;
 import com.idega.block.importer.presentation.ManagerImporter;
 import com.idega.business.IBOLookupException;
 import com.idega.core.view.ViewNode;
