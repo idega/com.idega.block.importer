@@ -1,0 +1,81 @@
+.importerForm .section {
+	width: 100%;
+	overflow: hidden;
+}
+
+.importerForm .section .item {
+	width: 100%;
+	overflow: hidden;
+	margin-bottom: 8px;
+}
+
+.importerForm .section .item label {
+	float: left;
+	width: 150px;
+	font-weight: bold;
+	text-align: left;
+}
+
+.importerForm .section .item input, .importerForm .section .item select {
+	border: 1px #a8a8a8 solid;
+}
+
+.importerForm .buttons {
+	margin-top: 8px;
+	clear: both;
+	text-align: right;
+}
+
+.importerForm .buttons input {
+	border: 1px #a8a8a8 solid;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	padding: 3px 5px;
+}
+
+.importerForm table {
+	margin-bottom: 12px;	
+}
+
+.importerForm table td, .importerForm table th {
+	padding: 2px 0;
+	border-bottom: 1px #a8a8a8 solid;
+}
+
+.importerForm table td.lastColumn, .importerForm table th.lastColumn {
+	text-align: right;
+}
+
+div.importerStatus {
+	padding-bottom: 8px;
+}
+
+div.importerStatus div.fileStatus {
+	border: 2px #0a0 solid;
+	background-color: #efe;
+	margin-bottom: 8px;
+	padding: 8px 8px 4px 8px;
+}
+
+div.importerStatus div.fileStatus.failed {
+	border-color: #a00;
+	background-color: #fee;
+}
+
+div.importerStatus div.fileStatus.notAllImported {
+	border-color: #aa0;
+	background-color: #ffe;
+}
+
+div.importerStatus div.fileStatus div.statusItem {
+	overflow: hidden;
+	margin-bottom: 4px;
+}
+
+div.importerStatus div.fileStatus div.statusItem label {
+	float: left;
+	width: 120px;
+	font-weight: bold;
+	text-align: left;
+}

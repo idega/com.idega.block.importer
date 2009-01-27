@@ -22,7 +22,6 @@ public class ManagerImporter extends Block {
 			ICFile homeFolder = MediaBusiness.getGroupHomeFolder(group, iwc);
 			//ICFile homeFolder = iwc.getAccessController().getAdministratorUser().getHomeFolder();
 			importer.setImportFolder(homeFolder);
-			importer.setInWorkspace(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

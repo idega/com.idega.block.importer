@@ -31,6 +31,36 @@
             </value>
             <type>map</type>
           </key>
+          <key>
+            <name>com.idega.block.importer.business.FileHandler</name>
+            <value>
+              <map>
+                <key>
+                  <name>component_property_file</name>
+                  <type>java.lang.String</type>
+                  <value>com.idega.block.importer.business.FileHandler.pxml</value>
+                  <simple>false</simple>
+                  <reload>false</reload>
+                </key>
+              </map>
+            </value>
+            <type>map</type>
+          </key>
+          <key>
+            <name>com.idega.block.importer.business.FileTypeHandler</name>
+            <value>
+              <map>
+                <key>
+                  <name>component_property_file</name>
+                  <type>java.lang.String</type>
+                  <value>com.idega.block.importer.business.FileTypeHandler.pxml</value>
+                  <simple>false</simple>
+                  <reload>false</reload>
+                </key>
+              </map>
+            </value>
+            <type>map</type>
+          </key>
         </map>
       </value>
       <type>map</type>

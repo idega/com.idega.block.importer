@@ -4,11 +4,9 @@ import java.io.File;
 
 /**
  * @author <a href="mailto:eiki@idega.is">Eirikur S. Hrafnsson</a>
- *
  */
 public class ColumnSeparatedImportFile extends GenericImportFile {
-	
-	
+
 	/**
 	 * Constructor for ColumnSeparatedImportFile.
 	 */
@@ -21,13 +19,11 @@ public class ColumnSeparatedImportFile extends GenericImportFile {
 
 	/**
 	 * Constructor for ColumnSeparatedImportFile.
+	 * 
 	 * @param file
 	 */
 	public ColumnSeparatedImportFile(File file) {
 		this();
 		setFile(file);
 	}
-
-
-
 }

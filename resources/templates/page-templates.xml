@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page-templates>
+	<page
+		name="Importer"
+		type="importer"
+		iconfile="idegaweb/bundles/com.idega.block.importer.bundle/resources/images/pageIcons/importer.png"
+		templatefile="idegaweb/bundles/com.idega.block.importer.bundle/resources/pages/idega_theme_importer.xml"
+	>
+	</page>
+</page-templates>

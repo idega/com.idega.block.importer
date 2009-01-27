@@ -12,9 +12,68 @@
       <value>iw.block</value>
     </key>
     <key>
+      <name>is_block</name>
+      <type>java.lang.String</type>
+      <value>true</value>
+    </key>
+    <key>
+      <name>icon_uri</name>
+      <type>java.lang.String</type>
+      <value>/idegaweb/bundles/com.idega.block.importer/resources/images/moduleIcons/importer.png</value>
+    </key>
+    <key>
       <name>iw_component_methods</name>
       <value>
         <map>
+          <key>
+            <name>:method:1:implied:void:setShowFileUploader:boolean:</name>
+            <value>
+              <map>
+                <key>
+                  <name>iw_method_params</name>
+                  <value>
+                    <map>
+                      <key>
+                        <name>0</name>
+                        <value>
+                          <map>
+                            <key>
+                              <name>iw_method_param_handler</name>
+                              <type>java.lang.String</type>
+                              <value />
+                            </key>
+                            <key>
+                              <name>iw_method_param_desc</name>
+                              <type>java.lang.String</type>
+                              <value>Show file uploader</value>
+                            </key>
+                          </map>
+                        </value>
+                        <type>map</type>
+                      </key>
+                    </map>
+                  </value>
+                  <type>map</type>
+                </key>
+                <key>
+                  <name>iw_method_option_multiv</name>
+                  <type>java.lang.Boolean</type>
+                  <value>false</value>
+                </key>
+                <key>
+                  <name>iw_method_description</name>
+                  <type>java.lang.String</type>
+                  <value>Show file uploader</value>
+                </key>
+                <key>
+                  <name>iw_method_identifier</name>
+                  <type>java.lang.String</type>
+                  <value>:method:1:implied:void:setShowFileUploader:boolean:</value>
+                </key>
+              </map>
+            </value>
+            <type>map</type>
+          </key>
           <key>
             <name>:method:1:implied:void:setImportFolder:com.idega.core.data.ICFile:</name>
             <value>
@@ -108,6 +167,138 @@
                   <name>iw_method_identifier</name>
                   <type>java.lang.String</type>
                   <value>:method:1:implied:void:setLocalFolderPath:java.lang.String:</value>
+                </key>
+              </map>
+            </value>
+            <type>map</type>
+          </key>
+          <key>
+            <name>:method:1:implied:void:setImportFileHandler:java.lang.Object:</name>
+            <value>
+              <map>
+                <key>
+                  <name>iw_method_params</name>
+                  <value>
+                    <map>
+                      <key>
+                        <name>0</name>
+                        <value>
+                          <map>
+                            <key>
+                              <name>iw_method_param_handler</name>
+                              <type>java.lang.String</type>
+                              <value>com.idega.block.importer.business.FileHandler</value>
+                              <simple>false</simple>
+                              <reload>false</reload>
+                            </key>
+                            <key>
+                              <name>iw_method_param_prim_key</name>
+                              <type>java.lang.Boolean</type>
+                              <value>false</value>
+                              <simple>false</simple>
+                              <reload>false</reload>
+                            </key>
+                            <key>
+                              <name>iw_method_param_desc</name>
+                              <type>java.lang.String</type>
+                              <value>File handler</value>
+                              <simple>false</simple>
+                              <reload>false</reload>
+                            </key>
+                          </map>
+                        </value>
+                        <type>map</type>
+                      </key>
+                    </map>
+                  </value>
+                  <type>map</type>
+                </key>
+                <key>
+                  <name>iw_method_option_multiv</name>
+                  <type>java.lang.Boolean</type>
+                  <value>false</value>
+                  <simple>false</simple>
+                  <reload>false</reload>
+                </key>
+                <key>
+                  <name>iw_method_description</name>
+                  <type>java.lang.String</type>
+                  <value>File handler</value>
+                  <simple>false</simple>
+                  <reload>false</reload>
+                </key>
+                <key>
+                  <name>iw_method_identifier</name>
+                  <type>java.lang.String</type>
+                  <value>:method:1:implied:void:setImportFileHandler:java.lang.Object:</value>
+                  <simple>false</simple>
+                  <reload>false</reload>
+                </key>
+              </map>
+            </value>
+            <type>map</type>
+          </key>
+          <key>
+            <name>:method:1:implied:void:setImportFileType:java.lang.Object:</name>
+            <value>
+              <map>
+                <key>
+                  <name>iw_method_params</name>
+                  <value>
+                    <map>
+                      <key>
+                        <name>0</name>
+                        <value>
+                          <map>
+                            <key>
+                              <name>iw_method_param_handler</name>
+                              <type>java.lang.String</type>
+                              <value>com.idega.block.importer.business.FileTypeHandler</value>
+                              <simple>false</simple>
+                              <reload>false</reload>
+                            </key>
+                            <key>
+                              <name>iw_method_param_prim_key</name>
+                              <type>java.lang.Boolean</type>
+                              <value>false</value>
+                              <simple>false</simple>
+                              <reload>false</reload>
+                            </key>
+                            <key>
+                              <name>iw_method_param_desc</name>
+                              <type>java.lang.String</type>
+                              <value>File type</value>
+                              <simple>false</simple>
+                              <reload>false</reload>
+                            </key>
+                          </map>
+                        </value>
+                        <type>map</type>
+                      </key>
+                    </map>
+                  </value>
+                  <type>map</type>
+                </key>
+                <key>
+                  <name>iw_method_option_multiv</name>
+                  <type>java.lang.Boolean</type>
+                  <value>false</value>
+                  <simple>false</simple>
+                  <reload>false</reload>
+                </key>
+                <key>
+                  <name>iw_method_description</name>
+                  <type>java.lang.String</type>
+                  <value>File type</value>
+                  <simple>false</simple>
+                  <reload>false</reload>
+                </key>
+                <key>
+                  <name>iw_method_identifier</name>
+                  <type>java.lang.String</type>
+                  <value>:method:1:implied:void:setImportFileType:java.lang.Object:</value>
+                  <simple>false</simple>
+                  <reload>false</reload>
                 </key>
               </map>
             </value>
