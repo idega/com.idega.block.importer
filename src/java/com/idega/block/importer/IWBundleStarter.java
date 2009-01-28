@@ -12,6 +12,7 @@ import org.sadun.util.polling.DirectoryPoller;
 
 import com.idega.block.importer.business.AddressCoordinateImportHandler;
 import com.idega.block.importer.business.AutoImportPollManager;
+import com.idega.block.importer.business.StreetNameImportFileHandler;
 import com.idega.block.importer.data.ColumnSeparatedImportFile;
 import com.idega.block.importer.data.ExcelImportFile;
 import com.idega.block.importer.data.GenericImportFile;
@@ -191,6 +192,23 @@ public class IWBundleStarter implements IWBundleStartable {
 					column.setDescription("An excel file reader. By default each record is separated with a new line character (\n) and each value is separated by a semi colon (;).");
 					column.setClassName(ExcelImportFile.class.getName());
 					column.store();
+				}
+				catch (CreateException ce) {
+					ce.printStackTrace();
+				}
+			}
+
+			ImportHandlerHome iHome = (ImportHandlerHome) IDOLookup.getHome(ImportHandler.class);
+			try {
+				iHome.findByClassName(StreetNameImportFileHandler.class.getName());
+			}
+			catch (FinderException fe) {
+				try {
+					ImportHandler handler = iHome.create();
+					handler.setName("Street name import");
+					handler.setDescription("Street name import handler (excel files).");
+					handler.setClassName(StreetNameImportFileHandler.class.getName());
+					handler.store();
 				}
 				catch (CreateException ce) {
 					ce.printStackTrace();
