@@ -13,12 +13,16 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
 import javax.ejb.CreateException;
 import javax.ejb.FinderException;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.springframework.stereotype.Service;
+
 import com.idega.block.importer.data.ImportFile;
 import com.idega.block.importer.data.ImportFileClass;
 import com.idega.block.importer.data.ImportFileClassHome;
@@ -178,7 +182,8 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 			handler = (ImportFileHandler) getServiceInstance(importHandlerInterfaceClass);
 		}
 		else {
-			handler = (ImportFileHandler) ELUtil.getInstance().getBean(importHandlerInterfaceClass);
+			Service bname = (Service) importHandlerInterfaceClass.getAnnotation(Service.class);
+			handler = (ImportFileHandler) ELUtil.getInstance().getBean(bname.value());
 		}
 
 		return handler;
