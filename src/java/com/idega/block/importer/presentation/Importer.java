@@ -99,7 +99,7 @@ public class Importer extends IWBaseComponent {
 	public void initializeComponent(FacesContext context) {
 		IWContext iwc = IWContext.getIWContext(context);
 		iwrb = iwc.getIWMainApplication().getBundle(getBundleIdentifier()).getResourceBundle(iwc);
-		PresentationUtil.addStyleSheetToHeader(iwc, iwc.getIWMainApplication().getBundle(getBundleIdentifier()).getVirtualPathWithFileNameString("/style/importer.css"));
+		PresentationUtil.addStyleSheetToHeader(iwc, iwc.getIWMainApplication().getBundle(getBundleIdentifier()).getVirtualPathWithFileNameString("style/importer.css"));
 
 		parseAction(iwc);
 		try {
