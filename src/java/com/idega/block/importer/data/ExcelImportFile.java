@@ -56,30 +56,32 @@ public class ExcelImportFile extends GenericImportFile {
 					buffer = new StringBuffer();
 				}
 				
-				for (short j = row.getFirstCellNum(); j < row.getLastCellNum(); j++) {
-					HSSFCell cell = row.getCell(j);
-					if (cell != null) {
-						if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
-							buffer.append(cell.getStringCellValue());
-						}
-						else if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
-							buffer.append(cell.getNumericCellValue());
-						}
-						else {
-							buffer.append(cell.getStringCellValue());
+				if (row != null) {
+					for (short j = row.getFirstCellNum(); j < row.getLastCellNum(); j++) {
+						HSSFCell cell = row.getCell(j);
+						if (cell != null) {
+							if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
+								buffer.append(cell.getStringCellValue());
+							}
+							else if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
+								buffer.append(cell.getNumericCellValue());
+							}
+							else {
+								buffer.append(cell.getStringCellValue());
+							}
 						}
 						buffer.append(getValueSeparator());
 					}
-				}
-	
-				records++;
-				if ((records % 1000) == 0) {
-					System.out.println("Importer: Reading record nr.: " + records + " from file " + getFile().getName());
-				}
+					
+					records++;
+					if ((records % 1000) == 0) {
+						System.out.println("Importer: Reading record nr.: " + records + " from file " + getFile().getName());
+					}
 
-				list.add(buffer.toString());
-				buffer = null;
-				cnt++;
+					list.add(buffer.toString());
+					buffer = null;
+					cnt++;
+				}
 			}
 			
 			if (records == 0) {
