@@ -101,6 +101,14 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 	 *      String, String, Integer)
 	 */
 	public boolean importRecords(String handlerClass, String fileClass, String filePath, Integer groupId, IWUserContext iwuc, List failedRecords) throws RemoteException {
+		return importRecords(handlerClass, fileClass, filePath, groupId, iwuc, failedRecords, null);
+	}
+	
+	/**
+	 * @see com.idega.block.importer.business.ImportBusiness#importRecords(String,
+	 *      String, String, Integer)
+	 */
+	public boolean importRecords(String handlerClass, String fileClass, String filePath, Integer groupId, IWUserContext iwuc, List failedRecords, List successRecords) throws RemoteException {
 		try {
 			boolean status = false;
 
@@ -114,6 +122,7 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 
 			status = handler.handleRecords();
 			failedRecords.addAll(handler.getFailedRecords());
+			successRecords.addAll(handler.getSuccessRecords());
 			return status;
 		}
 		catch (NoRecordsException ex) {
@@ -131,6 +140,14 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 	 *      String, String)
 	 */
 	public boolean importRecords(String handlerClass, String fileClass, String filePath, IWUserContext iwuc, List failedRecords) throws RemoteException {
+		return importRecords(handlerClass, fileClass, filePath, iwuc, failedRecords, null);
+	}
+	
+	/**
+	 * @see com.idega.block.importer.business.ImportBusiness#importRecords(String,
+	 *      String, String)
+	 */
+	public boolean importRecords(String handlerClass, String fileClass, String filePath, IWUserContext iwuc, List failedRecords, List successRecords) throws RemoteException {
 		try {
 			boolean status = false;
 			ImportFileHandler handler = this.getImportFileHandler(handlerClass, iwuc);
@@ -142,6 +159,7 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 
 			status = handler.handleRecords();
 			failedRecords.addAll(handler.getFailedRecords());
+			successRecords.addAll(handler.getSuccessRecords());
 			return status;
 		}
 		catch (NoRecordsException ex) {

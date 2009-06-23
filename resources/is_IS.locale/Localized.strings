@@ -26,6 +26,7 @@ importer.not.a.folder=\u00DEetta er ekki mappa
 importer.not.imported=Skr\u00E1in var ekki lesin inn
 importer.not_all\ imported=Ekki t\u00F3kst a\u00F0 lesa inn allar f\u00E6rslur
 importer.number_of_failed_records=Fj\u00F6ldi f\u00E6rsla sem ekki t\u00F3kst a\u00F0 lesa inn\:
+importer.number_of_success_records=Fj\u00F6ldi f\u00E6rsla sem t\u00F3kst a\u00F0 lesa inn\:
 importer.report=Sk\u00FDrsla
 importer.select.files.to.import=Velja skr\u00E1r til a\u00F0 lesa inn
 importer.select.import.file.type=Velja tegund innlestrarskr\u00E1r

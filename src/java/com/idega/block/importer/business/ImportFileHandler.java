@@ -20,4 +20,5 @@ public boolean handleRecords() throws RemoteException;
 public void setImportFile(ImportFile file) throws RemoteException;
 public void setRootGroup(Group rootGroup) throws RemoteException;
 public List getFailedRecords() throws RemoteException;
+public List getSuccessRecords() throws RemoteException;
 }

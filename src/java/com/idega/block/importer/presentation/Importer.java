@@ -216,8 +216,9 @@ public class Importer extends IWBaseComponent {
 				layer.add(fileStatus);
 
 				List failedRecords = new ArrayList();
+				List successRecords = new ArrayList();
 				try {
-					success = getImportBusiness(iwc).importRecords(handler, fileClass, path, iwc, failedRecords);
+					success = getImportBusiness(iwc).importRecords(handler, fileClass, path, iwc, failedRecords, successRecords);
 				}
 				catch (RemoteException re) {
 					re.printStackTrace();
@@ -267,6 +268,24 @@ public class Importer extends IWBaseComponent {
 					for (int j = 0; j < failedRecords.size(); j++) {
 						ListItem listItem = new ListItem();
 						listItem.add(new Text(String.valueOf(failedRecords.get(j))));
+						list.add(listItem);
+					}
+				}
+				
+				if (successRecords.size() != 0) {
+					item = new Layer();
+					item.setStyleClass("statusItem");
+					label = new Label();
+					label.setLabel(iwrb.getLocalizedString("importer.number_of_success_records", "Number of success records"));
+					item.add(label);
+					item.add(new Span(new Text(String.valueOf(successRecords.size()))));
+					fileStatus.add(item);
+
+					Lists list = new Lists();
+					fileStatus.add(list);
+					for (int j = 0; j < successRecords.size(); j++) {
+						ListItem listItem = new ListItem();
+						listItem.add(new Text(String.valueOf(successRecords.get(j))));
 						list.add(listItem);
 					}
 				}
