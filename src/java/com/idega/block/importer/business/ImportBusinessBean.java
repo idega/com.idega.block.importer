@@ -159,7 +159,10 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 
 			status = handler.handleRecords();
 			failedRecords.addAll(handler.getFailedRecords());
-			successRecords.addAll(handler.getSuccessRecords());
+			List success = handler.getSuccessRecords();
+			if (success != null) {
+				successRecords.addAll(success);
+			}
 			return status;
 		}
 		catch (NoRecordsException ex) {

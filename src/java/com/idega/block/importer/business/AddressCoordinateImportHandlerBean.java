@@ -1,5 +1,5 @@
 /*
- * $Id: AddressCoordinateImportHandlerBean.java,v 1.3 2009/06/23 07:17:00 laddi Exp $
+ * $Id: AddressCoordinateImportHandlerBean.java,v 1.4 2009/07/01 08:39:34 laddi Exp $
  * Created on 3.2.2005
  *
  * Copyright (C) 2005 Idega Software hf. All Rights Reserved.
@@ -28,10 +28,10 @@ import com.idega.user.data.Group;
 
 /**
  * 
- *  Last modified: $Date: 2009/06/23 07:17:00 $ by $Author: laddi $
+ *  Last modified: $Date: 2009/07/01 08:39:34 $ by $Author: laddi $
  * 
  * @author <a href="mailto:gimmi@idega.com">gimmi</a>
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class AddressCoordinateImportHandlerBean extends IBOServiceBean implements AddressCoordinateImportHandler{
 	
@@ -146,10 +146,10 @@ public class AddressCoordinateImportHandlerBean extends IBOServiceBean implement
 	}
 	
 	public List getFailedRecords() throws RemoteException {
-		return null;
+		return new ArrayList();
 	}
 	
 	public List getSuccessRecords() throws RemoteException {
-		return null;
+		return new ArrayList();
 	}
 }
