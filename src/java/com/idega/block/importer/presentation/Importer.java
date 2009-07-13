@@ -2,6 +2,8 @@ package com.idega.block.importer.presentation;
 import java.io.File;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -517,6 +519,7 @@ public class Importer extends StyledIWAdminWindow {
 		Table fileTable = getFrameTable();
 		if (folder.isDirectory()) {
 			File[] files = folder.listFiles();
+			Arrays.sort(files, new FileNameComparator());
 			fileTable.resize(3, files.length + 4);
 			PresentationObjectContainer form;
 			if(isAddForm()){
@@ -617,4 +620,22 @@ public class Importer extends StyledIWAdminWindow {
 		this.inWorkspace = inWorkspace;
 		setAddForm(false);
 	}
+	
+	private class FileNameComparator implements Comparator {
+
+		public int compare(Object file1, Object file2){
+
+		//parameter are of type Object, so we have to downcast it to Employee objects
+
+		String f1 = ((File)file1).getName();
+
+		String f2 = ((File)file2).getName();
+
+		//uses compareTo method of String class to compare names of the employee
+
+		return f1.compareTo(f2);
+
+		}
+
+	} 
 }

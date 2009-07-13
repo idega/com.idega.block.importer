@@ -26,13 +26,13 @@ import com.idega.util.text.TextSoap;
 
 public class GenericImportFile implements ImportFile{
 	
-	  private File file;
-	  private String recordDilimiter = "\n";
-	  private String valueSeparator = ";";
-	  private String emptyValueString = " ";
-	  private InputStreamReader fr;
-	  private BufferedReader br;
-	  private boolean addNewLineAfterRecord = false;
+	  protected File file;
+	  protected String recordDilimiter = "\n";
+	  protected String valueSeparator = ";";
+	  protected String emptyValueString = " ";
+	  protected InputStreamReader fr;
+	  protected BufferedReader br;
+	  protected boolean addNewLineAfterRecord = false;
 
 	  public GenericImportFile(){}
 	
