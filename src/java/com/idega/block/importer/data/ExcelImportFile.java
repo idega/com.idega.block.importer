@@ -13,12 +13,14 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import com.idega.block.importer.business.NoRecordsException;
+import com.idega.util.CoreConstants;
 import com.idega.util.Timer;
 
 public class ExcelImportFile extends GenericImportFile {
 	
 	private Iterator iter;
 	
+	@Override
 	public Object getNextRecord() {
 		if (iter == null) {
 			Collection records = getAllRecords();
@@ -62,11 +64,28 @@ public class ExcelImportFile extends GenericImportFile {
 						if (cell != null) {
 							if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
 								buffer.append(cell.getStringCellValue());
-							}
-							else if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
+							} else if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
 								buffer.append(cell.getNumericCellValue());
-							}
-							else {
+							} else if (cell.getCellType() == HSSFCell.CELL_TYPE_FORMULA) {
+								switch (cell.getCachedFormulaResultType()) {
+									case HSSFCell.CELL_TYPE_NUMERIC: {
+										buffer.append(cell.getNumericCellValue());
+										break;
+									}
+									case HSSFCell.CELL_TYPE_STRING: {
+										buffer.append(cell.getStringCellValue());
+										break;
+									}
+									case HSSFCell.CELL_TYPE_BLANK: {
+										buffer.append(CoreConstants.EMPTY);
+										break;
+									}
+									case HSSFCell.CELL_TYPE_BOOLEAN: {
+										buffer.append(cell.getBooleanCellValue());
+										break;
+									}
+								}
+							} else {
 								buffer.append(cell.getStringCellValue());
 							}
 						}
