@@ -194,7 +194,7 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 			}
 		}
 
-		ImportFileHandler handler;
+		ImportFileHandler handler = null;
 
 		if (isSessionBean) {
 			handler = (ImportFileHandler) getSessionInstance(iwuc, importHandlerInterfaceClass);
@@ -204,7 +204,13 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 		}
 		else {
 			Service bname = (Service) importHandlerInterfaceClass.getAnnotation(Service.class);
-			handler = (ImportFileHandler) ELUtil.getInstance().getBean(bname.value());
+			if (bname != null) {
+				handler = (ImportFileHandler) ELUtil.getInstance().getBean(bname.value());
+			}
+		}
+		
+		if (handler == null) {
+			handler = (ImportFileHandler) getServiceInstance(importHandlerInterfaceClass);
 		}
 
 		return handler;
