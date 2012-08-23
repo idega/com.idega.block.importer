@@ -44,7 +44,6 @@ public class ExcelImportFile extends GenericImportFile {
 			HSSFWorkbook wb = new HSSFWorkbook(input);
 			HSSFSheet sheet = wb.getSheetAt(0);
 			
-			int cnt = 0;
 			int records = 0;
 	
 			Timer clock = new Timer();
@@ -99,7 +98,6 @@ public class ExcelImportFile extends GenericImportFile {
 
 					list.add(buffer.toString());
 					buffer = null;
-					cnt++;
 				}
 			}
 			
