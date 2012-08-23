@@ -39,8 +39,9 @@ public class ExcelImportFile extends GenericImportFile {
 	}
 	
 	public Collection getAllRecords() throws NoRecordsException {
+		FileInputStream input = null;
 		try {
-			FileInputStream input = new FileInputStream(getFile());
+			input = new FileInputStream(getFile());
 			HSSFWorkbook wb = new HSSFWorkbook(input);
 			HSSFSheet sheet = wb.getSheetAt(0);
 			
@@ -114,6 +115,16 @@ public class ExcelImportFile extends GenericImportFile {
 		catch (IOException ex) {
 			ex.printStackTrace(System.err);
 			return null;
+		}
+		finally {
+			if (input != null) {
+				try {
+					input.close();
+				}
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }
