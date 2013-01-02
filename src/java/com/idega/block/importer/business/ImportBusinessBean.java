@@ -194,7 +194,7 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 			}
 		}
 
-		ImportFileHandler handler;
+		ImportFileHandler handler = null;
 
 		if (isSessionBean) {
 			handler = (ImportFileHandler) getSessionInstance(iwuc, importHandlerInterfaceClass);
@@ -204,7 +204,13 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 		}
 		else {
 			Service bname = (Service) importHandlerInterfaceClass.getAnnotation(Service.class);
-			handler = (ImportFileHandler) ELUtil.getInstance().getBean(bname.value());
+			if (bname != null) {
+				handler = (ImportFileHandler) ELUtil.getInstance().getBean(bname.value());
+			}
+		}
+		
+		if (handler == null) {
+			handler = (ImportFileHandler) getServiceInstance(importHandlerInterfaceClass);
 		}
 
 		return handler;
@@ -274,7 +280,7 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 		ICFile folder = getReportFolder(importFile.getName(), true);
 		ICFile report;
 		ICFileHome fileHome = (ICFileHome) IDOLookup.getHome(ICFile.class);
-		BufferedInputStream bis;
+		BufferedInputStream bis = null;
 		try {
 			bis = new BufferedInputStream(new FileInputStream(reportFile));
 			report = fileHome.create();
@@ -304,6 +310,16 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
+		}
+		finally {
+			if (bis != null) {
+				try {
+					bis.close();
+				}
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 

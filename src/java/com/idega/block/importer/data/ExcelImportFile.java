@@ -13,12 +13,14 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import com.idega.block.importer.business.NoRecordsException;
+import com.idega.util.CoreConstants;
 import com.idega.util.Timer;
 
 public class ExcelImportFile extends GenericImportFile {
 	
 	private Iterator iter;
 	
+	@Override
 	public Object getNextRecord() {
 		if (iter == null) {
 			Collection records = getAllRecords();
@@ -37,12 +39,12 @@ public class ExcelImportFile extends GenericImportFile {
 	}
 	
 	public Collection getAllRecords() throws NoRecordsException {
+		FileInputStream input = null;
 		try {
-			FileInputStream input = new FileInputStream(getFile());
+			input = new FileInputStream(getFile());
 			HSSFWorkbook wb = new HSSFWorkbook(input);
 			HSSFSheet sheet = wb.getSheetAt(0);
 			
-			int cnt = 0;
 			int records = 0;
 	
 			Timer clock = new Timer();
@@ -62,11 +64,28 @@ public class ExcelImportFile extends GenericImportFile {
 						if (cell != null) {
 							if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
 								buffer.append(cell.getStringCellValue());
-							}
-							else if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
+							} else if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
 								buffer.append(cell.getNumericCellValue());
-							}
-							else {
+							} else if (cell.getCellType() == HSSFCell.CELL_TYPE_FORMULA) {
+								switch (cell.getCachedFormulaResultType()) {
+									case HSSFCell.CELL_TYPE_NUMERIC: {
+										buffer.append(cell.getNumericCellValue());
+										break;
+									}
+									case HSSFCell.CELL_TYPE_STRING: {
+										buffer.append(cell.getStringCellValue());
+										break;
+									}
+									case HSSFCell.CELL_TYPE_BLANK: {
+										buffer.append(CoreConstants.EMPTY);
+										break;
+									}
+									case HSSFCell.CELL_TYPE_BOOLEAN: {
+										buffer.append(cell.getBooleanCellValue());
+										break;
+									}
+								}
+							} else {
 								buffer.append(cell.getStringCellValue());
 							}
 						}
@@ -80,7 +99,6 @@ public class ExcelImportFile extends GenericImportFile {
 
 					list.add(buffer.toString());
 					buffer = null;
-					cnt++;
 				}
 			}
 			
@@ -97,6 +115,16 @@ public class ExcelImportFile extends GenericImportFile {
 		catch (IOException ex) {
 			ex.printStackTrace(System.err);
 			return null;
+		}
+		finally {
+			if (input != null) {
+				try {
+					input.close();
+				}
+				catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }
