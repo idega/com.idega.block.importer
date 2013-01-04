@@ -13,6 +13,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ejb.CreateException;
 import javax.ejb.FinderException;
@@ -37,12 +38,13 @@ import com.idega.user.data.Group;
  */
 public class AddressCoordinateImportHandlerBean extends IBOServiceBean implements AddressCoordinateImportHandler{
 
+	private static final long serialVersionUID = 570406035457982035L;
 	/*
 	 insert into im_handler values (null,'AddressCoordinate Handler', 'com.idega.core.location.business.AddressCoordinateImportHandler', 'AddressCoordinate Handler', null, null)
 	 */
 
-	private HashMap communeMap;
-	private HashMap coordMap;
+	private Map<String, Commune> communeMap;
+	private Map<String, AddressCoordinate> coordMap;
 	private CommuneHome commHome;
 	private AddressCoordinateHome coordHome;
 
@@ -52,8 +54,8 @@ public class AddressCoordinateImportHandlerBean extends IBOServiceBean implement
 	public boolean handleRecords() throws RemoteException {
 
 		try {
-			this.communeMap = new HashMap();
-			this.coordMap = new HashMap();
+			this.communeMap = new HashMap<String, Commune>();
+			this.coordMap = new HashMap<String, AddressCoordinate>();
 			try {
 				this.commHome = (CommuneHome) IDOLookup.getHome(Commune.class);
 				this.coordHome = (AddressCoordinateHome) IDOLookup.getHome(AddressCoordinate.class);
@@ -110,7 +112,7 @@ public class AddressCoordinateImportHandlerBean extends IBOServiceBean implement
 
 	// If created, then NOT stored
 	private AddressCoordinate getCoordinate(String coordinate) {
-		AddressCoordinate coord = (AddressCoordinate) this.coordMap.get(coordinate);
+		AddressCoordinate coord = this.coordMap.get(coordinate);
 		if (coord == null) {
 			try {
 				coord = this.coordHome.findByCoordinate(coordinate);
@@ -129,7 +131,7 @@ public class AddressCoordinateImportHandlerBean extends IBOServiceBean implement
 	}
 
 	private Commune getCommune(String communeCode) {
-		Commune comm = (Commune) this.communeMap.get(communeCode);
+		Commune comm = this.communeMap.get(communeCode);
 		if (comm == null) {
 			try {
 				comm = this.commHome.findByCommuneCode(communeCode);
