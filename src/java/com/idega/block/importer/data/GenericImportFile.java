@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import com.idega.block.importer.business.NoRecordsException;
@@ -20,7 +21,7 @@ import com.idega.util.text.TextSoap;
  * Description:
  * Copyright: Copyright (c) 2002
  * Company: Idega Software
- * 
+ *
  * @author <a href="mailto:eiki@idega.is"> Eirikur Sveinn Hrafnsson</a>
  * @version 1.0
  */
@@ -59,6 +60,7 @@ public class GenericImportFile implements ImportFile {
 	/**
 	 * This method works like an iterator. When the end of the file is reached it returns null
 	 */
+	@Override
 	public Object getNextRecord() {
 		String line;
 		StringBuffer buf = new StringBuffer();
@@ -98,7 +100,9 @@ public class GenericImportFile implements ImportFile {
 	 * @deprecated This method parses the file into records (ArrayList) and returns the complete list.
 	 *             it throws a NoRecordsFoundException if no records where found.
 	 */
-	public Collection getRecords() throws NoRecordsException {
+	@Deprecated
+	@Override
+	public Collection<String> getRecords() throws NoRecordsException {
 		try {
 			if (getEncoding() == null) {
 				this.fr = new FileReader(getFile());
@@ -109,7 +113,7 @@ public class GenericImportFile implements ImportFile {
 			this.br = new BufferedReader(this.fr);
 			String line;
 			StringBuffer buf = new StringBuffer();
-			ArrayList list = new ArrayList();
+			List<String> list = new ArrayList<String>();
 
 			int cnt = 0;
 			int records = 0;
@@ -172,13 +176,14 @@ public class GenericImportFile implements ImportFile {
 
 	}
 
+	@Override
 	public File getFile() {
 		return this.file;
 	}
 
 	/**
 	 * Returns the addNewLineAfterRecord.
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public boolean isAddNewLineAfterRecord() {
@@ -187,7 +192,7 @@ public class GenericImportFile implements ImportFile {
 
 	/**
 	 * Sets if to add a \n after each record
-	 * 
+	 *
 	 * @param addNewLineAfterRecord	The addNewLineAfterRecord to set
 	 */
 	public void setAddNewLineAfterRecord(boolean addNewLineAfterRecord) {
@@ -196,7 +201,7 @@ public class GenericImportFile implements ImportFile {
 
 	/**
 	 * Returns the valueSeparator.
-	 * 
+	 *
 	 * @return String
 	 */
 	public String getValueSeparator() {
@@ -205,16 +210,17 @@ public class GenericImportFile implements ImportFile {
 
 	/**
 	 * Sets the file.
-	 * 
+	 *
 	 * @param file	The file to set
 	 */
+	@Override
 	public void setFile(File file) {
 		this.file = file;
 	}
 
 	/**
 	 * Sets the valueSeparator.
-	 * 
+	 *
 	 * @param valueSeparator	The valueSeparator to set
 	 */
 	public void setValueSeparator(String valueSeparator) {
@@ -223,11 +229,12 @@ public class GenericImportFile implements ImportFile {
 
 	/**
 	 * Method getValueAtIndexFromRecordString. Uses the valueSeparator and a stringtokenizer to read and return a value at a selected index.
-	 * 
+	 *
 	 * @param index	The index starts at 1
 	 * @param recordString
 	 * @return The value at the selected index. Remember if the value was empty the returned value will be getEmptyValueString().
 	 */
+	@Override
 	public String getValueAtIndexFromRecordString(int index, String recordString) {
 		int i = 1;
 		recordString = TextSoap.findAndReplace(recordString, this.valueSeparator + this.valueSeparator, this.valueSeparator + this.emptyValueString + this.valueSeparator);
@@ -250,19 +257,20 @@ public class GenericImportFile implements ImportFile {
 
 	/**
 	 * Method getValuesFromRecordString. Uses the valueSeparator and a stringtokenizer to read the record and create an ArrayList of values.
-	 * 
+	 *
 	 * @param recordString
 	 * @return An ArrayList of values or null is no value was found
 	 */
-	public ArrayList getValuesFromRecordString(String recordString) {
-		ArrayList values = null;
+	@Override
+	public List<String> getValuesFromRecordString(String recordString) {
+		List<String> values = null;
 		recordString = TextSoap.findAndReplace(recordString, this.valueSeparator + this.valueSeparator, this.valueSeparator + this.emptyValueString + this.valueSeparator);
 		recordString = TextSoap.findAndReplace(recordString, this.valueSeparator + this.valueSeparator, this.valueSeparator + this.emptyValueString + this.valueSeparator);
 		StringTokenizer tokens = new StringTokenizer(recordString, this.valueSeparator);
 		String value = null;
 		while (tokens.hasMoreTokens()) {
 			if (values == null) {
-				values = new ArrayList();
+				values = new ArrayList<String>();
 			}
 			value = tokens.nextToken();
 			values.add(value);
@@ -273,13 +281,15 @@ public class GenericImportFile implements ImportFile {
 
 	/**
 	 * Returns the ignoreIfFoundValue.
-	 * 
+	 *
 	 * @return String
 	 */
+	@Override
 	public String getEmptyValueString() {
 		return this.emptyValueString;
 	}
 
+	@Override
 	public void setEmptyValueString(String emptyValueString) {
 		this.emptyValueString = emptyValueString;
 	}
@@ -288,6 +298,7 @@ public class GenericImportFile implements ImportFile {
 	 * Closes the FileReader and BufferedReader
 	 * @see com.idega.block.importer.data.ImportFile#close()
 	 */
+	@Override
 	public void close() {
 		if (null != this.br) {
 			try {
@@ -307,6 +318,7 @@ public class GenericImportFile implements ImportFile {
 		}
 	}
 
+	@Override
 	public String getEncoding() {
 		return null;
 	}

@@ -1,14 +1,14 @@
 package com.idega.block.importer.data;
 
-import java.util.Collection;
-import java.util.ArrayList;
 import java.io.File;
+import java.util.Collection;
+import java.util.List;
 
 public interface ImportFile{
 
-  public Collection getRecords();
-  public Object getNextRecord(); 
-  public ArrayList getValuesFromRecordString(String recordString);
+  public Collection<String> getRecords();
+  public Object getNextRecord();
+  public List<String> getValuesFromRecordString(String recordString);
   public String getValueAtIndexFromRecordString(int index, String recordString);
   public void setFile(File file);
   public String getEmptyValueString();
@@ -20,6 +20,4 @@ public interface ImportFile{
   public void setEmptyValueString(String emptyValueString);
   public File getFile();
   public String getEncoding();
-  //public Object getRecordAtIndex(int index);
- // public boolean parse();
 }

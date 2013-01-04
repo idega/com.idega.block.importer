@@ -10,12 +10,13 @@ package com.idega.block.importer.business;
  * code;areaname;countryname
  * Copyright: idega software 2002
  * @author Eirikur S. Hrafnsson eiki@idega.is
- * @version 1.0 
+ * @version 1.0
  */
 
 import java.io.File;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
+import java.util.List;
+
 import com.idega.block.importer.data.ColumnSeparatedImportFile;
 import com.idega.business.IBOLookup;
 import com.idega.core.location.business.AddressBusiness;
@@ -26,7 +27,6 @@ import com.idega.data.IDOLookup;
 import com.idega.idegaweb.IWApplicationContext;
 import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.IWBundleStartable;
-import com.idega.util.FileUtil;
 
 public class PostalCodeBundleStarter implements IWBundleStartable{
 
@@ -35,9 +35,10 @@ private IWApplicationContext iwac;
   public PostalCodeBundleStarter() {
   }
 
-  public void start(IWBundle bundle) {
+  @Override
+public void start(IWBundle bundle) {
 		this.iwac = bundle.getApplication().getIWApplicationContext();
-		File postalCodeFolder = new File(bundle.getResourcesRealPath() + FileUtil.getFileSeparator() + "postalcode");
+		File postalCodeFolder = new File(bundle.getResourcesRealPath() + File.separator + "postalcode");
 		if (postalCodeFolder.isDirectory()) {
 			File[] files = postalCodeFolder.listFiles();
 			if (files != null && files.length > 0) {
@@ -47,9 +48,9 @@ private IWApplicationContext iwac;
 						try {
 							String record;
 							while (!(record = (String) postals.getNextRecord()).equals("")) {
-								ArrayList values = postals.getValuesFromRecordString(record);
-								createPostalIfDoesNotExist((String) values.get(0), (String) values.get(1),
-										(String) values.get(2));
+								List<String> values = postals.getValuesFromRecordString(record);
+								createPostalIfDoesNotExist(values.get(0), values.get(1),
+										values.get(2));
 							}
 						}
 						catch (Exception e) {
@@ -60,9 +61,9 @@ private IWApplicationContext iwac;
 				}
 			}
 		}
-		
+
 		//Add an "other" commmune
-		
+
 		try {
 			AddressBusiness biz = getAddressBusiness();
 			biz.getOtherCommuneCreateIfNotExist();
@@ -75,17 +76,17 @@ private IWApplicationContext iwac;
 
 
 	private void createPostalIfDoesNotExist(String code, String area, String countryName){
-		
+
 		try {
 			AddressBusiness biz = getAddressBusiness();
 			Country country = ((CountryHome)IDOLookup.getHome(Country.class)).findByCountryName(countryName);
-			
+
 			// connect postal code to commune and create commune if needed
 			PostalCode postalCode = biz.getPostalCodeAndCreateIfDoesNotExist(code,area,country);
 			if(null == postalCode.getCommuneID() || postalCode.getCommuneID().length() == 0) {
 				biz.connectPostalCodeToCommune(postalCode, area);
 			}
-			
+
 		} catch (Exception e) {
 			System.out.println("PostalCodeBundleStarter: import failed for : "+code+ ", "+area+", "+countryName );
 			e.printStackTrace();
@@ -95,10 +96,11 @@ private IWApplicationContext iwac;
 	private AddressBusiness getAddressBusiness() throws RemoteException{
 		return (AddressBusiness) IBOLookup.getServiceInstance(this.iwac,AddressBusiness.class);
 	}
-	
+
 	/**
 	 * @see com.idega.idegaweb.IWBundleStartable#stop(IWBundle)
 	 */
+	@Override
 	public void stop(IWBundle starterBundle) {
 		//does nothing...
 	}

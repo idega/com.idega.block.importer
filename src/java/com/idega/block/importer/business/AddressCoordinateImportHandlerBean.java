@@ -13,8 +13,10 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import javax.ejb.CreateException;
 import javax.ejb.FinderException;
+
 import com.idega.block.importer.data.ImportFile;
 import com.idega.business.IBOServiceBean;
 import com.idega.core.location.data.AddressCoordinate;
@@ -27,27 +29,28 @@ import com.idega.user.data.Group;
 
 
 /**
- * 
+ *
  *  Last modified: $Date: 2009/07/01 08:39:34 $ by $Author: laddi $
- * 
+ *
  * @author <a href="mailto:gimmi@idega.com">gimmi</a>
  * @version $Revision: 1.4 $
  */
 public class AddressCoordinateImportHandlerBean extends IBOServiceBean implements AddressCoordinateImportHandler{
-	
+
 	/*
 	 insert into im_handler values (null,'AddressCoordinate Handler', 'com.idega.core.location.business.AddressCoordinateImportHandler', 'AddressCoordinate Handler', null, null)
 	 */
-	
+
 	private HashMap communeMap;
 	private HashMap coordMap;
 	private CommuneHome commHome;
 	private AddressCoordinateHome coordHome;
-	
+
 	ImportFile importFile = null;
-	
+
+	@Override
 	public boolean handleRecords() throws RemoteException {
-		
+
 		try {
 			this.communeMap = new HashMap();
 			this.coordMap = new HashMap();
@@ -58,36 +61,36 @@ public class AddressCoordinateImportHandlerBean extends IBOServiceBean implement
 			catch (IDOLookupException e1) {
 				e1.printStackTrace();
 			}
-			
-			int counter = 0; 
+
+			int counter = 0;
 			String record;
 			while (!(record = (String) this.importFile.getNextRecord()).equals("")) {
 				counter++;
-				ArrayList values = this.importFile.getValuesFromRecordString(record);
-				createCoordinateIfDoesNotExist((String) values.get(0), (String) values.get(1),
-						(String) values.get(2), (String) values.get(3), (String) values.get(4), (String) values.get(5));
+				List<String> values = this.importFile.getValuesFromRecordString(record);
+				createCoordinateIfDoesNotExist(values.get(0), values.get(1),
+						values.get(2), values.get(3), values.get(4), values.get(5));
 				if (counter % 50 == 0) {
 					System.out.println("AddressCoordinateImportHandler : "+counter+" records imported");
 				}
 			}
 			System.out.println("AddressCoordinateImportHandler : "+counter+" records imported");
-			
+
 			return true;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 		return false;
-		
-		
+
+
 	}
-	
+
 	private void createCoordinateIfDoesNotExist(String county, String communeCode, String parish, String coordinate, String coordinateCode, String newCoordinateCode ) {
 		try {
 			Integer.parseInt(county);		// Just making sure the line is valid
 			Integer.parseInt(communeCode);	// Just making sure the line is valid
 			Integer.parseInt(parish); 		// Just making sure the line is valid
-			
+
 			Commune commune = getCommune(communeCode);
 			AddressCoordinate coord = getCoordinate(coordinate.trim());
 			if (commune != null) {
@@ -99,12 +102,12 @@ public class AddressCoordinateImportHandlerBean extends IBOServiceBean implement
 				coord.setCoordinateCode(coordinateCode);
 			}
 			coord.store();
-			
+
 		} catch (NumberFormatException n) {
 			System.out.println("[IWBundleStarter (core) Not a valid import line");
 		}
 	}
-	
+
 	// If created, then NOT stored
 	private AddressCoordinate getCoordinate(String coordinate) {
 		AddressCoordinate coord = (AddressCoordinate) this.coordMap.get(coordinate);
@@ -124,7 +127,7 @@ public class AddressCoordinateImportHandlerBean extends IBOServiceBean implement
 		}
 		return coord;
 	}
-	
+
 	private Commune getCommune(String communeCode) {
 		Commune comm = (Commune) this.communeMap.get(communeCode);
 		if (comm == null) {
@@ -137,19 +140,23 @@ public class AddressCoordinateImportHandlerBean extends IBOServiceBean implement
 		}
 		return comm;
 	}
-	
+
+	@Override
 	public void setImportFile(ImportFile file) throws RemoteException {
 		this.importFile = file;
 	}
-	
+
+	@Override
 	public void setRootGroup(Group rootGroup) throws RemoteException {
 	}
-	
-	public List getFailedRecords() throws RemoteException {
-		return new ArrayList();
+
+	@Override
+	public List<String> getFailedRecords() throws RemoteException {
+		return new ArrayList<String>();
 	}
-	
-	public List getSuccessRecords() throws RemoteException {
-		return new ArrayList();
+
+	@Override
+	public List<String> getSuccessRecords() throws RemoteException {
+		return new ArrayList<String>();
 	}
 }
