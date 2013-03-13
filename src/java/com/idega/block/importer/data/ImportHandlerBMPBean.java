@@ -128,7 +128,7 @@ public class ImportHandlerBMPBean extends com.idega.data.GenericEntity implement
 	try{
 		ImportHandler KR = ((ImportHandlerHome)IDOLookup.getHome(ImportHandler.class)).create();
 		KR.setName("KR data importer");
-		KR.setDescription("Les inn gögn kn.d. KR.");
+		KR.setDescription("Les inn gÃ¶gn kn.d. KR.");
 		KR.setClassName("is.idega.idegaweb.member.business.KRImportFileHandler");
       	KR.store();
     }
@@ -139,7 +139,7 @@ public class ImportHandlerBMPBean extends com.idega.data.GenericEntity implement
     try{
 		ImportHandler KRclub = ((ImportHandlerHome)IDOLookup.getHome(ImportHandler.class)).create();
 		KRclub.setName("KR Club data importer");
-		KRclub.setDescription("Les inn gögn í KR klúbbinn");
+		KRclub.setDescription("Les inn gÃ¶gn Ã­ KR klÃºbbinn");
 		KRclub.setClassName("is.idega.idegaweb.member.business.KRClubImportFileHandler");
       	KRclub.store();
     }
