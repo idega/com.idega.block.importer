@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.idega.block.importer.business.NoRecordsException;
 import com.idega.util.Timer;
@@ -27,6 +29,8 @@ import com.idega.util.text.TextSoap;
  */
 
 public class GenericImportFile implements ImportFile {
+
+	private static final Logger LOGGER = Logger.getLogger(GenericImportFile.class.getName());
 
 	private File file;
 	private String recordDilimiter = "\n";
@@ -77,7 +81,7 @@ public class GenericImportFile implements ImportFile {
 					buf.append('\n');
 				}
 
-				if (getRecordDilimiter().equals("\n")) {
+				if (getRecordDilimiter().equals(recordDilimiter)) {
 					break;// need to check because readline strips this token away.
 				}
 
@@ -86,11 +90,11 @@ public class GenericImportFile implements ImportFile {
 			return buf.toString();
 		}
 		catch (FileNotFoundException ex) {
-			ex.printStackTrace(System.err);
+			LOGGER.log(Level.WARNING, "File not found: " + getFile(), ex);
 			return null;
 		}
 		catch (IOException ex) {
-			ex.printStackTrace(System.err);
+			LOGGER.log(Level.WARNING, "Error reading file " + getFile(), ex);
 			return null;
 		}
 
@@ -136,7 +140,7 @@ public class GenericImportFile implements ImportFile {
 				if (line.indexOf(getRecordDilimiter()) != -1) {
 					records++;
 					if ((records % 1000) == 0) {
-						System.out.println("Importer: Reading record nr.: " + records + " from file " + getFile().getName());
+						LOGGER.info("Importer: Reading record nr.: " + records + " from file " + getFile().getName());
 					}
 
 					list.add(buf.toString());
@@ -159,18 +163,16 @@ public class GenericImportFile implements ImportFile {
 				throw new NoRecordsException("No records where found in the selected file" + this.file.getAbsolutePath());
 			}
 
-			System.out.println("Time for operation: " + clock.getTime() + " ms  OR " + ((int) (clock.getTime() / 1000)) + " s");
-			System.out.println("Number of Lines: " + cnt);
-			System.out.println("Number of records = " + records);
+			LOGGER.info("Time for operation: " + clock.getTime() + " ms  OR " + ((int) (clock.getTime() / 1000)) + " s. Number of lines: " + cnt + ", number of records = " + records);
 
 			return list;
 		}
 		catch (FileNotFoundException ex) {
-			ex.printStackTrace(System.err);
+			LOGGER.log(Level.WARNING, "File not found: " + getFile(), ex);
 			return null;
 		}
 		catch (IOException ex) {
-			ex.printStackTrace(System.err);
+			LOGGER.log(Level.WARNING, "Error reading file " + getFile(), ex);
 			return null;
 		}
 
@@ -243,7 +245,7 @@ public class GenericImportFile implements ImportFile {
 		String value = null;
 		while (tokens.hasMoreTokens() && i <= index) {
 			value = tokens.nextToken();
-			// System.out.println("GenericImportFile : index = "+index+" value = "+value);
+			// LOGGER.info("GenericImportFile : index = "+index+" value = "+value);
 			if (tokens.hasMoreTokens()) {
 				i++;
 			}
