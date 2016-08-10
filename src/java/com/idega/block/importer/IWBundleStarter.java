@@ -13,6 +13,7 @@ import org.sadun.util.polling.DirectoryPoller;
 import com.idega.block.importer.business.AddressCoordinateImportHandler;
 import com.idega.block.importer.business.AutoImportPollManager;
 import com.idega.block.importer.data.ColumnSeparatedImportFile;
+import com.idega.block.importer.data.CommaSeparatedImportFile;
 import com.idega.block.importer.data.ExcelImportFile;
 import com.idega.block.importer.data.GenericImportFile;
 import com.idega.block.importer.data.ImportFileClass;
@@ -33,7 +34,7 @@ import com.idega.workspace.view.WorkspaceClassViewNode;
 /**
  * Activats pollers for automatic imports configured by the user (AutoImporter).
  * Copyright: Copyright (c) 2004 Company: idega software
- * 
+ *
  * @author Joakim@idega.is
  * @see com.idega.block.importer.presentation.AutoImporter
  */
@@ -43,9 +44,10 @@ public class IWBundleStarter implements IWBundleStartable {
 
 	/**
 	 * Starts all the pollers for automatic imports
-	 * 
+	 *
 	 * @see com.idega.idegaweb.IWBundleStartable#start(com.idega.idegaweb.IWBundle)
 	 */
+	@Override
 	public void start(IWBundle starterBundle) {
 		RefactorClassRegistry rfregistry = RefactorClassRegistry.getInstance();
 		rfregistry.registerRefactoredClass("com.idega.core.location.business.AddressCoordinateImportHandler", AddressCoordinateImportHandler.class);
@@ -92,9 +94,10 @@ public class IWBundleStarter implements IWBundleStartable {
 
 	/**
 	 * Stops all the pollers for automatic imports
-	 * 
+	 *
 	 * @see com.idega.idegaweb.IWBundleStartable#stop(com.idega.idegaweb.IWBundle)
 	 */
+	@Override
 	public void stop(IWBundle starterBundle) {
 		System.out.println("Shutting down pollers");
 		Iterator iter = pollers.values().iterator();
@@ -106,7 +109,7 @@ public class IWBundleStarter implements IWBundleStartable {
 
 	/**
 	 * Helper function to stop a specific poller
-	 * 
+	 *
 	 * @param handlerClassName
 	 */
 	public static void shutdown(String handlerClassName) {
@@ -123,7 +126,7 @@ public class IWBundleStarter implements IWBundleStartable {
 
 	/**
 	 * Adds a new poller
-	 * 
+	 *
 	 * @param importHandler
 	 * @throws ClassNotFoundException
 	 * @throws IBOLookupException
@@ -144,11 +147,11 @@ public class IWBundleStarter implements IWBundleStartable {
 			System.out.println("WARNING: The configured folder '" + autoImpFolder + "' could not be found. Automatic import not started!");
 		}
 	}
-	
+
 	private void addStartData() {
 		try {
 			ImportFileClassHome home = (ImportFileClassHome) IDOLookup.getHome(ImportFileClass.class);
-			
+
 			try {
 				home.findByClassName(GenericImportFile.class.getName());
 			}
@@ -164,7 +167,7 @@ public class IWBundleStarter implements IWBundleStartable {
 					ce.printStackTrace();
 				}
 			}
-	
+
 			try {
 				home.findByClassName(ColumnSeparatedImportFile.class.getName());
 			}
@@ -180,7 +183,23 @@ public class IWBundleStarter implements IWBundleStartable {
 					ce.printStackTrace();
 				}
 			}
-			
+
+			try {
+				home.findByClassName(CommaSeparatedImportFile.class.getName());
+			}
+			catch (Exception ex) {
+				try {
+					ImportFileClass column = ((ImportFileClassHome) IDOLookup.getHome(ImportFileClass.class)).create();
+					column.setName("Comma separated file");
+					column.setDescription("A comma separated file reader. By default each record is separated with a new line character (\n) and each value is separated by a comma (,) but it can be adjusted by properties.");
+					column.setClassName(CommaSeparatedImportFile.class.getName());
+					column.store();
+				}
+				catch (CreateException ce) {
+					ce.printStackTrace();
+				}
+			}
+
 			try {
 				home.findByClassName(ExcelImportFile.class.getName());
 			}
