@@ -11,7 +11,7 @@ import com.idega.user.data.Group;
  * <p>Copyright: (c) 2002</p>
  * <p>Company: Idega Software</p>
  * @author <a href="mailto:eiki@idega.is">Eirikur Sveinn Hrafnsson</a>
- * @version 1.0 
+ * @version 1.0
  */
 
 public interface ImportFileHandler {
@@ -19,6 +19,6 @@ public interface ImportFileHandler {
 public boolean handleRecords() throws RemoteException;
 public void setImportFile(ImportFile file) throws RemoteException;
 public void setRootGroup(Group rootGroup) throws RemoteException;
-public List getFailedRecords() throws RemoteException;
-public List getSuccessRecords() throws RemoteException;
+public <F> List<F> getFailedRecords() throws RemoteException;
+public <S> List<S> getSuccessRecords() throws RemoteException;
 }
