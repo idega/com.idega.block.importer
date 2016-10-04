@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.sadun.util.polling.BasePollManager;
 import org.sadun.util.polling.FileFoundEvent;
@@ -23,12 +25,15 @@ import com.idega.repository.data.RefactorClassRegistry;
  * AutoImportPollManager handles the action when file(s) are found in folders for automatic imports
  * One AutoImportPollManager is created for each folder to be polled from.
  * It basically calls the specified importer class with the files found in the folder.
- * 
+ *
  * Copyright:    Copyright (c) 2004
  * Company:      idega software
  * @author Joakim@idega.is
  */
 public class AutoImportPollManager extends BasePollManager {
+
+	private static final Logger LOGGER = Logger.getLogger(AutoImportPollManager.class.getName());
+
 	private String fileClass;
 	private ImportFileHandler handler;
 
@@ -36,21 +41,23 @@ public class AutoImportPollManager extends BasePollManager {
 		this.fileClass = fc;
 		this.handler = getImportFileHandler(importerClass);
 	}
-	
+
 	/**
 	 * Implemented interface (callback)
 	 * @see org.sadun.util.polling.BasePollManager
 	 */
+	@Override
 	public void fileFound(FileFoundEvent evt){
 		File file = evt.getFile();
 		processFile(file);
-		
+
 	}
-	
+
 	/**
 	 * Implemented interface (callback)
 	 * @see org.sadun.util.polling.BasePollManager
 	 */
+	@Override
 	public void fileSetFound(FileSetFoundEvent evt){
 		File[] files = evt.getFiles();
 		for(int i=0;i<files.length;i++){
@@ -59,7 +66,7 @@ public class AutoImportPollManager extends BasePollManager {
 	}
 
 	/**
-	 * Calls the import and creates a report file if needed for the 
+	 * Calls the import and creates a report file if needed for the
 	 * @param filePath
 	 */
 	private void processFile(File filePath) {
@@ -72,14 +79,11 @@ public class AutoImportPollManager extends BasePollManager {
 			createReport(this.handler, filePath);
 			filePath.delete();
 		} catch (RemoteException e) {
-			System.out.println("Warning Automatic import of " + filePath + " did not succeed");
-			e.printStackTrace();
+			LOGGER.log(Level.WARNING, "Automatic import of " + filePath + " did not succeed", e);
 		} catch (NoRecordsException e) {
-			System.out.println("Warning Automatic import of " + filePath + " did not succeed");
-			e.printStackTrace();
+			LOGGER.log(Level.WARNING, "Automatic import of " + filePath + " did not succeed", e);
 		} catch (Exception e) {
-			System.out.println("Warning Automatic import of " + filePath + " did not succeed");
-			e.printStackTrace();
+			LOGGER.log(Level.WARNING, "Automatic import of " + filePath + " did not succeed", e);
 		}
 	}
 
@@ -91,7 +95,7 @@ public class AutoImportPollManager extends BasePollManager {
 	 */
 	private void createReport(ImportFileHandler handler, File path) {
 		try {
-			List failedRecords = handler.getFailedRecords();
+			List<String> failedRecords = handler.getFailedRecords();
 			if (failedRecords.size() > 0) {
 				String pathString = path.toString();
 				int folderPointer = pathString.lastIndexOf('/');
@@ -100,28 +104,28 @@ public class AutoImportPollManager extends BasePollManager {
 				pathString = pathString.substring(0, folderPointer);
 				folderPointer = pathString.lastIndexOf('/') + 1;
 				folderPointer = Math.max(folderPointer, pathString.lastIndexOf('\\') + 1);
-				
-				System.out.println("folderPointer = " + folderPointer);
+
+				LOGGER.info("folderPointer = " + folderPointer);
 				String reportPathString = pathString
 						.substring(0, folderPointer)
 						+ "Reports/";
-				System.out.println("reportPathString = " + reportPathString);
+				LOGGER.info("reportPathString = " + reportPathString);
 				String filePath = reportPathString + fileName;
 				File reportPath = new File(reportPathString);
 				if (!reportPath.exists()) {
-					System.out.println("ReportPath not existing, trying to create");
+					LOGGER.info("ReportPath not existing, trying to create");
 					if(!reportPath.mkdir()){
-						System.out.println("Could not create the report folder. No import reports can be created!");
+						LOGGER.info("Could not create the report folder. No import reports can be created!");
 						return;
 					}
 				}
-				System.out.println("pathString = " + filePath);
+				LOGGER.info("pathString = " + filePath);
 				try {
 					BufferedWriter out = new BufferedWriter(new FileWriter(filePath));
 
-					Iterator iter = failedRecords.iterator();
+					Iterator<String> iter = failedRecords.iterator();
 					while (iter.hasNext()) {
-						String line = (String) iter.next();
+						String line = iter.next();
 						out.write(line + '\n');
 					}
 					out.close();
@@ -136,17 +140,18 @@ public class AutoImportPollManager extends BasePollManager {
 			e.printStackTrace();
 		}
 	}
-	
+
   	public ImportFileHandler getImportFileHandler(String handlerClass) throws ClassNotFoundException, IBOLookupException {
-  		Class importHandlerInterfaceClass = RefactorClassRegistry.forName(handlerClass);
-		ImportFileHandler handler = (ImportFileHandler) getServiceInstance(importHandlerInterfaceClass);
+  		Class<?> importHandlerInterfaceClass = RefactorClassRegistry.forName(handlerClass);
+		@SuppressWarnings("unchecked")
+		ImportFileHandler handler = (ImportFileHandler) getServiceInstance((Class<IBOService>) importHandlerInterfaceClass);
 	    return handler;
   	}
 
     /**
      * Get an instance of the service bean specified by serviceClass
      */
-	protected IBOService getServiceInstance(Class serviceClass)throws IBOLookupException{
+	protected <T extends IBOService> T getServiceInstance(Class<T> serviceClass)throws IBOLookupException{
 		return IBOLookup.getServiceInstance(IWMainApplication.getDefaultIWMainApplication().getIWApplicationContext(), serviceClass);
     }
 }
