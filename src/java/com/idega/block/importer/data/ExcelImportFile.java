@@ -7,11 +7,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import com.idega.block.importer.business.NoRecordsException;
 import com.idega.util.CoreConstants;
@@ -38,13 +42,21 @@ public class ExcelImportFile extends GenericImportFile {
 
 		return "";
 	}
-
+	
 	public Collection<String> getAllRecords() throws NoRecordsException {
 		FileInputStream input = null;
 		try {
 			input = new FileInputStream(getFile());
-			HSSFWorkbook wb = new HSSFWorkbook(input);
-			HSSFSheet sheet = wb.getSheetAt(0);
+			Workbook wb;
+			
+			try {
+				wb = WorkbookFactory.create(input);
+			} catch (InvalidFormatException e) {
+				Logger.getLogger(getClass().getName()).log(Level.WARNING, "", e);
+				return null;
+			} 
+			
+			Sheet sheet = wb.getSheetAt(0);
 
 			int records = 0;
 
@@ -54,36 +66,36 @@ public class ExcelImportFile extends GenericImportFile {
 			StringBuffer buffer = new StringBuffer();
 			ArrayList<String> list = new ArrayList<String>();
 			for (int i = sheet.getFirstRowNum(); i <= sheet.getLastRowNum(); i++) {
-				HSSFRow row = sheet.getRow(i);
+				Row row = sheet.getRow(i);
 				if (buffer == null) {
 					buffer = new StringBuffer();
 				}
 
 				if (row != null) {
 					for (int j = row.getFirstCellNum(); j < row.getLastCellNum(); j++) {
-						HSSFCell cell = row.getCell(j);
+						Cell cell = row.getCell(j);
 						if (cell != null) {
 							Serializable value = null;
 
-							if (cell.getCellType() == HSSFCell.CELL_TYPE_STRING) {
+							if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
 								value = cell.getStringCellValue();
-							} else if (cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
+							} else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
 								value = cell.getNumericCellValue();
-							} else if (cell.getCellType() == HSSFCell.CELL_TYPE_FORMULA) {
+							} else if (cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
 								switch (cell.getCachedFormulaResultType()) {
-									case HSSFCell.CELL_TYPE_NUMERIC: {
+									case Cell.CELL_TYPE_NUMERIC: {
 										value = cell.getNumericCellValue();
 										break;
 									}
-									case HSSFCell.CELL_TYPE_STRING: {
+									case Cell.CELL_TYPE_STRING: {
 										value = cell.getStringCellValue();
 										break;
 									}
-									case HSSFCell.CELL_TYPE_BLANK: {
+									case Cell.CELL_TYPE_BLANK: {
 										value = CoreConstants.EMPTY;
 										break;
 									}
-									case HSSFCell.CELL_TYPE_BOOLEAN: {
+									case Cell.CELL_TYPE_BOOLEAN: {
 										value = cell.getBooleanCellValue();
 										break;
 									}
@@ -132,4 +144,5 @@ public class ExcelImportFile extends GenericImportFile {
 			}
 		}
 	}
+	
 }
