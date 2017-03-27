@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -27,8 +28,12 @@ public class ExcelImportFile extends GenericImportFile {
 
 	@Override
 	public Object getNextRecord() {
+		return getNextRecord(false);
+	}
+	
+	public Object getNextRecord(boolean getValueAsString) {
 		if (iter == null) {
-			Collection<String> records = getAllRecords();
+			Collection<String> records = getAllRecords(getValueAsString);
 			if (records != null) {
 				iter = records.iterator();
 			}
@@ -44,6 +49,10 @@ public class ExcelImportFile extends GenericImportFile {
 	}
 	
 	public Collection<String> getAllRecords() throws NoRecordsException {
+		return getAllRecords(false);
+	}
+	
+	public Collection<String> getAllRecords(boolean getValuesAsStrings) throws NoRecordsException {
 		FileInputStream input = null;
 		try {
 			input = new FileInputStream(getFile());
@@ -55,6 +64,8 @@ public class ExcelImportFile extends GenericImportFile {
 				Logger.getLogger(getClass().getName()).log(Level.WARNING, "", e);
 				return null;
 			} 
+			
+			DataFormatter dataFormatter = new DataFormatter();
 			
 			Sheet sheet = wb.getSheetAt(0);
 
@@ -77,7 +88,9 @@ public class ExcelImportFile extends GenericImportFile {
 						if (cell != null) {
 							Serializable value = null;
 
-							if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+							if(getValuesAsStrings) {
+								value = dataFormatter.formatCellValue(cell);
+							} else if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
 								value = cell.getStringCellValue();
 							} else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
 								value = cell.getNumericCellValue();
