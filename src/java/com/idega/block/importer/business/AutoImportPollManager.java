@@ -20,6 +20,7 @@ import com.idega.business.IBOLookupException;
 import com.idega.business.IBOService;
 import com.idega.idegaweb.IWMainApplication;
 import com.idega.repository.data.RefactorClassRegistry;
+import com.idega.util.ListUtil;
 
 /**
  * AutoImportPollManager handles the action when file(s) are found in folders for automatic imports
@@ -77,7 +78,9 @@ public class AutoImportPollManager extends BasePollManager {
 
 			this.handler.handleRecords();
 			createReport(this.handler, filePath);
-			filePath.delete();
+			if (IWMainApplication.getDefaultIWMainApplication().getSettings().getBoolean("imp.delete_imported_file", true)) {
+				filePath.delete();
+			}
 		} catch (RemoteException e) {
 			LOGGER.log(Level.WARNING, "Automatic import of " + filePath + " did not succeed", e);
 		} catch (NoRecordsException e) {
@@ -96,7 +99,7 @@ public class AutoImportPollManager extends BasePollManager {
 	private void createReport(ImportFileHandler handler, File path) {
 		try {
 			List<String> failedRecords = handler.getFailedRecords();
-			if (failedRecords.size() > 0) {
+			if (!ListUtil.isEmpty(failedRecords)) {
 				String pathString = path.toString();
 				int folderPointer = pathString.lastIndexOf('/');
 				folderPointer = Math.max(folderPointer, pathString.lastIndexOf('\\'));
@@ -134,6 +137,8 @@ public class AutoImportPollManager extends BasePollManager {
 				} catch (IndexOutOfBoundsException e){
 					e.printStackTrace();
 				}
+			} else {
+				LOGGER.info("Imported all records from " + path.getAbsolutePath());
 			}
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
