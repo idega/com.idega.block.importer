@@ -7,7 +7,6 @@
   </parent>
   <name>idegaWeb Importer Block</name>
   <artifactId>com.idega.block.importer</artifactId>
-  <version>5.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <inceptionYear>2000</inceptionYear>
   <description>idegaWeb Importer Block</description>
