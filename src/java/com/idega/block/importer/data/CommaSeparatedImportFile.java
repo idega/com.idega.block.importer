@@ -10,7 +10,7 @@ public class CommaSeparatedImportFile extends GenericImportFile {
 		super();
 
 		this.setAddNewLineAfterRecord(false);
-		this.setRecordDilimiter("\n");
+		this.setRecordDilimiter(CoreConstants.NEWLINE);
 		this.setValueSeparator(CoreConstants.COMMA);
 	}
 

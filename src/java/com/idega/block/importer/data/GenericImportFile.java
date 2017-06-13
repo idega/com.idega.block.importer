@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.idega.block.importer.business.NoRecordsException;
+import com.idega.util.CoreConstants;
 import com.idega.util.Timer;
 import com.idega.util.text.TextSoap;
 
@@ -33,9 +34,9 @@ public class GenericImportFile implements ImportFile {
 	private static final Logger LOGGER = Logger.getLogger(GenericImportFile.class.getName());
 
 	private File file;
-	private String recordDilimiter = "\n";
-	private String valueSeparator = ";";
-	private String emptyValueString = " ";
+	private String recordDilimiter = CoreConstants.NEWLINE;
+	private String valueSeparator = CoreConstants.SEMICOLON;
+	private String emptyValueString = CoreConstants.SPACE;
 	private InputStreamReader fr;
 	private BufferedReader br;
 	protected boolean addNewLineAfterRecord = false;
