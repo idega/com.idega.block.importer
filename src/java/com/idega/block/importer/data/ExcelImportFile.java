@@ -1,6 +1,7 @@
 package com.idega.block.importer.data;
 
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,7 +10,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
@@ -54,14 +54,18 @@ public class ExcelImportFile extends GenericImportFile {
 		return getAllRecords(false);
 	}
 
+	public static Workbook getWorkbook(InputStream input) throws Exception {
+		return WorkbookFactory.create(input);
+	}
+
 	public Collection<String> getAllRecords(boolean getValuesAsStrings) throws NoRecordsException {
 		FileInputStream input = null;
 		try {
 			input = new FileInputStream(getFile());
 			Workbook wb = null;
 			try {
-				wb = WorkbookFactory.create(input);
-			} catch (InvalidFormatException e) {
+				wb = getWorkbook(input);
+			} catch (Exception e) {
 				LOGGER.log(Level.WARNING, "Error getting workbook from " + getFile(), e);
 			}
 			if (wb == null) {
