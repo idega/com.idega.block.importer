@@ -28,9 +28,19 @@ public class ExcelImportFile extends GenericImportFile {
 
 	private Iterator<String> iter;
 
+	private boolean getValueAsString;
+
+	public boolean isGetValueAsString() {
+		return getValueAsString;
+	}
+
+	public void setGetValueAsString(boolean getValueAsString) {
+		this.getValueAsString = getValueAsString;
+	}
+
 	@Override
 	public Object getNextRecord() {
-		return getNextRecord(false);
+		return getNextRecord(isGetValueAsString());
 	}
 
 	public Object getNextRecord(boolean getValueAsString) {
