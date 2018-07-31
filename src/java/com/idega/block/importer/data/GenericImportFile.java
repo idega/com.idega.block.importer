@@ -161,7 +161,7 @@ public class GenericImportFile implements ImportFile {
 			clock.stop();
 
 			if (records == 0) {
-				throw new NoRecordsException("No records where found in the selected file" + this.file.getAbsolutePath());
+				throw new NoRecordsException("No records where found in the selected file " + this.file.getAbsolutePath());
 			}
 
 			LOGGER.info("Time for operation: " + clock.getTime() + " ms  OR " + ((int) (clock.getTime() / 1000)) + " s. Number of lines: " + cnt + ", number of records = " + records);
