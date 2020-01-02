@@ -12,6 +12,7 @@ import org.sadun.util.polling.DirectoryPoller;
 
 import com.idega.block.importer.business.AddressCoordinateImportHandler;
 import com.idega.block.importer.business.AutoImportPollManager;
+import com.idega.block.importer.business.PostalCodeImporter;
 import com.idega.block.importer.data.ColumnSeparatedImportFile;
 import com.idega.block.importer.data.CommaSeparatedImportFile;
 import com.idega.block.importer.data.ExcelImportFile;
@@ -40,7 +41,7 @@ import com.idega.workspace.view.WorkspaceClassViewNode;
  */
 public class IWBundleStarter implements IWBundleStartable {
 
-	private static HashMap pollers = new HashMap();
+	private static HashMap<String, DirectoryPoller> pollers = new HashMap<>();
 
 	/**
 	 * Starts all the pollers for automatic imports
@@ -53,18 +54,32 @@ public class IWBundleStarter implements IWBundleStartable {
 		rfregistry.registerRefactoredClass("com.idega.core.location.business.AddressCoordinateImportHandler", AddressCoordinateImportHandler.class);
 		addStartData();
 
+		ImportHandlerHome home = null;
+		try {
+			home = (ImportHandlerHome) IDOLookup.getHome(ImportHandler.class);
+			try {
+				home.findByClassName(PostalCodeImporter.class.getName());
+			} catch (FinderException fe) {
+				try {
+					ImportHandler handler = home.create();
+					handler.setName("Postal codes");
+					handler.setDescription("Postal codes import handler (CSV files).");
+					handler.setClassName(PostalCodeImporter.class.getName());
+					handler.store();
+				} catch (CreateException ce) {
+					ce.printStackTrace();
+				}
+			}
+		} catch (IDOLookupException e) {}
+
 		System.out.println("Activating pollers for automatic imports");
 		try {
-			Collection coll = ((ImportHandlerHome) IDOLookup.getHome(ImportHandler.class)).findAllAutomaticUpdates();
-			Iterator iter = coll.iterator();
+			Collection<?> coll = home.findAllAutomaticUpdates();
+			Iterator<?> iter = coll.iterator();
 			while (iter.hasNext()) {
 				ImportHandler importHandler = (ImportHandler) iter.next();
 				addPoller(importHandler);
 			}
-		}
-		catch (IDOLookupException e) {
-			System.out.println("WARNING: Could not start the pollers for automatic imports");
-			e.printStackTrace();
 		}
 		catch (FinderException e) {
 			System.out.println("WARNING: Could not start the pollers for automatic imports");
@@ -100,9 +115,9 @@ public class IWBundleStarter implements IWBundleStartable {
 	@Override
 	public void stop(IWBundle starterBundle) {
 		System.out.println("Shutting down pollers");
-		Iterator iter = pollers.values().iterator();
+		Iterator<DirectoryPoller> iter = pollers.values().iterator();
 		while (iter.hasNext()) {
-			DirectoryPoller poller = (DirectoryPoller) iter.next();
+			DirectoryPoller poller = iter.next();
 			poller.shutdown();
 		}
 	}
@@ -114,7 +129,7 @@ public class IWBundleStarter implements IWBundleStartable {
 	 */
 	public static void shutdown(String handlerClassName) {
 		System.out.println("Shutting down poller:" + handlerClassName);
-		DirectoryPoller poller = (DirectoryPoller) pollers.get(handlerClassName);
+		DirectoryPoller poller = pollers.get(handlerClassName);
 		if (null != poller) {
 			poller.shutdown();
 			pollers.remove(handlerClassName);
