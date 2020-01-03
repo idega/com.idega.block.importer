@@ -2,6 +2,8 @@ package com.idega.block.importer.business;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,23 +64,39 @@ public class PostalCodeImporter implements ImportFileHandler {
 				try {
 					country = addressBusiness.getCountryHome().findByPrimaryKey(Integer.valueOf(countryId));
 				} catch (Exception e) {}
-				PostalCode pc = null;
+				PostalCode pCode = null;
 				if (country == null) {
-					pc = addressBusiness.getPostalCodeAndCreateIfDoesNotExist(postalCode, name);
+					pCode = addressBusiness.getPostalCodeAndCreateIfDoesNotExist(postalCode, name);
 				} else {
-					pc = addressBusiness.getPostalCodeAndCreateIfDoesNotExist(postalCode, name, country);
+					pCode = addressBusiness.getPostalCodeAndCreateIfDoesNotExist(postalCode, name, country);
 				}
-				if (pc == null) {
+				if (pCode == null) {
 					failedRecords.add(record);
 					continue;
 				}
 
-				Commune commune = addressBusiness.getCommuneAndCreateIfDoesNotExist(name, null);
-				pc.setCommune(commune);
-				pc.setConvertToUpperCase(false);
-				pc.setName(name);
-				pc.setPostalCode(postalCode);
-				pc.store();
+				Collection<PostalCode> codes = null;
+				try {
+					codes = addressBusiness.getPostalCodeHome().findByPostalCode(Arrays.asList(postalCode));
+				} catch (Exception e) {}
+				List<PostalCode> allPostalCodes = null;
+				if (ListUtil.isEmpty(codes)) {
+					allPostalCodes = Arrays.asList(pCode);
+				} else {
+					allPostalCodes = new ArrayList<>(codes);
+					allPostalCodes.add(pCode);
+				}
+				for (PostalCode pc: allPostalCodes) {
+					Commune commune = addressBusiness.getCommuneAndCreateIfDoesNotExist(name, null);
+					pc.setCommune(commune);
+					pc.setConvertToUpperCase(false);
+					pc.setName(name);
+					pc.setPostalCode(postalCode);
+					if (country != null && pc.getCountryID() < 0) {
+						pc.setCountry(country);
+					}
+					pc.store();
+				}
 
 				successRecords.add(record);
 			} catch (Exception e) {
