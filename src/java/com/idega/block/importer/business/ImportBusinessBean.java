@@ -56,7 +56,7 @@ import com.idega.util.text.TextSoap;
  * <p>
  * Company: Idega Software
  * </p>
- * 
+ *
  * @author <a href="mailto:eiki@idega.is"> Eirikur Sveinn Hrafnsson</a>
  * @version 1.0
  */
@@ -69,6 +69,7 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 	/**
 	 * @see com.idega.block.importer.business.ImportBusiness#getImportHandlers()
 	 */
+	@Override
 	public Collection getImportHandlers() throws RemoteException {
 
 		Collection col = null;
@@ -84,6 +85,7 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 	/**
 	 * @see com.idega.block.importer.business.ImportBusiness#getImportFileTypes()
 	 */
+	@Override
 	public Collection getImportFileTypes() throws RemoteException {
 		Collection col = null;
 		try {
@@ -100,14 +102,16 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 	 * @see com.idega.block.importer.business.ImportBusiness#importRecords(String,
 	 *      String, String, Integer)
 	 */
+	@Override
 	public boolean importRecords(String handlerClass, String fileClass, String filePath, Integer groupId, IWUserContext iwuc, List failedRecords) throws RemoteException {
 		return importRecords(handlerClass, fileClass, filePath, groupId, iwuc, failedRecords, null);
 	}
-	
+
 	/**
 	 * @see com.idega.block.importer.business.ImportBusiness#importRecords(String,
 	 *      String, String, Integer)
 	 */
+	@Override
 	public boolean importRecords(String handlerClass, String fileClass, String filePath, Integer groupId, IWUserContext iwuc, List failedRecords, List successRecords) throws RemoteException {
 		try {
 			boolean status = false;
@@ -139,14 +143,16 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 	 * @see com.idega.block.importer.business.ImportBusiness#importRecords(String,
 	 *      String, String)
 	 */
+	@Override
 	public boolean importRecords(String handlerClass, String fileClass, String filePath, IWUserContext iwuc, List failedRecords) throws RemoteException {
 		return importRecords(handlerClass, fileClass, filePath, iwuc, failedRecords, null);
 	}
-	
+
 	/**
 	 * @see com.idega.block.importer.business.ImportBusiness#importRecords(String,
 	 *      String, String)
 	 */
+	@Override
 	public boolean importRecords(String handlerClass, String fileClass, String filePath, IWUserContext iwuc, List failedRecords, List successRecords) throws RemoteException {
 		try {
 			boolean status = false;
@@ -175,10 +181,12 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 		}
 	}
 
+	@Override
 	public GroupBusiness getGroupBusiness() throws Exception {
-		return (GroupBusiness) this.getServiceInstance(GroupBusiness.class);
+		return this.getServiceInstance(GroupBusiness.class);
 	}
 
+	@Override
 	public ImportFileHandler getImportFileHandler(String handlerClass, IWUserContext iwuc) throws Exception {
 		Class importHandlerInterfaceClass = RefactorClassRegistry.forName(handlerClass);
 		Class[] interfaces = importHandlerInterfaceClass.getInterfaces();
@@ -208,7 +216,7 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 				handler = (ImportFileHandler) ELUtil.getInstance().getBean(bname.value());
 			}
 		}
-		
+
 		if (handler == null) {
 			handler = (ImportFileHandler) getServiceInstance(importHandlerInterfaceClass);
 		}
@@ -216,10 +224,12 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 		return handler;
 	}
 
+	@Override
 	public ImportFile getImportFile(String fileClass) throws Exception {
 		return (ImportFile) RefactorClassRegistry.forName(fileClass).newInstance();
 	}
 
+	@Override
 	public DropdownMenu getImportHandlers(IWContext iwc, String name) throws RemoteException {
 		DropdownMenu menu = new DropdownMenu(name);
 		Collection col = getImportHandlers();
@@ -231,6 +241,7 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 		return menu;
 	}
 
+	@Override
 	public DropdownMenu getImportFileClasses(IWContext iwc, String name) throws RemoteException {
 		DropdownMenu menu = new DropdownMenu(name);
 		Collection col = getImportFileTypes();
@@ -242,6 +253,7 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 		return menu;
 	}
 
+	@Override
 	public ICFile getReportFolder(String importFileName, boolean createIfNotFound) throws RemoteException, CreateException {
 		String reportFilename = importFileName;
 		int i = reportFilename.indexOf('_');
@@ -274,6 +286,7 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 		return null;
 	}
 
+	@Override
 	public void addReport(File importFile, File reportFile) throws RemoteException, CreateException {
 		boolean replace = true;
 
@@ -326,11 +339,12 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 	/**
 	 * Creates a text file and adds it the the importFile. Each collection element
 	 * should contain a single Objecet or a colleciton of objects.
-	 * 
+	 *
 	 * @param separator
 	 * @param data
 	 *          Collection containing Collection
 	 */
+	@Override
 	public void addReport(File importFile, String name, Collection data, String separator) throws RemoteException, CreateException {
 		File report = getReport(importFile.getName() + "_" + name, data, separator);
 		addReport(importFile, report);
@@ -340,11 +354,12 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 	/**
 	 * Creates an excel file and adds it the the importFile. Each collection
 	 * element should contain a single Objecet or a colleciton of objects.
-	 * 
+	 *
 	 * @param separator
 	 * @param data
 	 *          Collection containing Collection
 	 */
+	@Override
 	public void addExcelReport(File importFile, String name, Collection data, String separator) throws RemoteException, CreateException {
 		File report = getExcelReport(importFile.getName() + "_" + name + ".xls", data, separator);
 		addReport(importFile, report);
@@ -355,13 +370,14 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 	 * Creates a text file with separated columns. Each collection element should
 	 * contain the data for a single line. Note. this does NOT add the report to
 	 * the importFile, use addReport for that.
-	 * 
+	 *
 	 * @param name
 	 *          Name of the file, with full path
 	 * @param data
 	 *          Collection containing Collection
 	 * @param separator
 	 */
+	@Override
 	public File getReport(String name, Collection data, String separator) {
 		if (data != null && !data.isEmpty()) {
 			File file = new File(name);
@@ -411,13 +427,14 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 	 * Creates an excel file with separated columns. Each collection element
 	 * should contain the data for a single line. Note. this does NOT add the
 	 * report to the importFile, use addReport for that.
-	 * 
+	 *
 	 * @param name
 	 *          Name of the file, with full path
 	 * @param data
 	 *          Collection containing Collection
 	 * @param separator
 	 */
+	@Override
 	public File getExcelReport(String name, Collection data, String separator) {
 		if (data != null && !data.isEmpty()) {
 			try {
