@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -107,28 +108,31 @@ public class ExcelImportFile extends GenericImportFile {
 
 								if (getValuesAsStrings) {
 									value = dataFormatter.formatCellValue(cell);
-								} else if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
+								} else if (cell.getCellType() == CellType.STRING) {
 									value = cell.getStringCellValue();
-								} else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+								} else if (cell.getCellType() == CellType.NUMERIC) {
 									value = cell.getNumericCellValue();
-								} else if (cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
+								} else if (cell.getCellType() == CellType.FORMULA) {
 									switch (cell.getCachedFormulaResultType()) {
-										case Cell.CELL_TYPE_NUMERIC: {
+										case NUMERIC: {
 											value = cell.getNumericCellValue();
 											break;
 										}
-										case Cell.CELL_TYPE_STRING: {
+										case STRING: {
 											value = cell.getStringCellValue();
 											break;
 										}
-										case Cell.CELL_TYPE_BLANK: {
+										case BLANK: {
 											value = CoreConstants.EMPTY;
 											break;
 										}
-										case Cell.CELL_TYPE_BOOLEAN: {
+										case BOOLEAN: {
 											value = cell.getBooleanCellValue();
 											break;
 										}
+									default:
+										value = CoreConstants.EMPTY;
+										break;
 									}
 								} else {
 									value = cell.getStringCellValue();

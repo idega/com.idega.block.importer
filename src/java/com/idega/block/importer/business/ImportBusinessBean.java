@@ -476,6 +476,7 @@ public class ImportBusinessBean extends IBOServiceBean implements ImportBusiness
 					// Write the output to a file
 					FileOutputStream fileOut = new FileOutputStream(name);
 					wb.write(fileOut);
+					wb.close();
 					fileOut.close();
 
 					file = new File(name);
